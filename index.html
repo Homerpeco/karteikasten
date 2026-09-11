@@ -259,6 +259,86 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
 }
+
+/* ---------- reference list ---------- */
+.list-wrap{display:flex;flex-direction:column;gap:12px;}
+.list-toolbar{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px;
+  box-shadow:0 1px 3px rgba(16,24,40,0.06);}
+.seg-row{display:flex;gap:5px;background:var(--page-2);padding:4px;border-radius:10px;margin-bottom:10px;}
+.seg{flex:1;font-family:'Inter',sans-serif;font-size:0.74rem;font-weight:700;padding:8px 6px;border:none;
+  border-radius:8px;background:transparent;color:var(--ink-soft);cursor:pointer;transition:background .16s ease,color .16s ease;}
+.seg:hover{color:var(--ink);}
+.seg.active{background:var(--card);color:var(--blue);box-shadow:0 1px 2px rgba(16,24,40,0.14);}
+.search-field{position:relative;display:flex;align-items:center;}
+.search-field input{width:100%;font-family:'Inter',sans-serif;font-size:0.9rem;color:var(--ink);
+  padding:11px 34px 11px 34px;border:1px solid var(--border);border-radius:10px;background:#fff;}
+.search-field input::placeholder{color:var(--ink-soft);}
+.search-field input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg);}
+.search-icon{position:absolute;left:10px;display:flex;color:var(--ink-soft);pointer-events:none;}
+.search-clear{position:absolute;right:6px;border:none;background:transparent;color:var(--ink-soft);
+  font-size:1.05rem;line-height:1;cursor:pointer;padding:5px 7px;border-radius:6px;}
+.search-clear:hover{background:rgba(16,24,40,0.06);color:var(--ink);}
+.chip-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;padding-bottom:2px;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.chip-row::-webkit-scrollbar{height:0;display:none;}
+.chip{white-space:nowrap;font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:700;padding:6px 11px;
+  border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--ink-mid);cursor:pointer;
+  transition:background .16s ease,color .16s ease,border-color .16s ease;}
+.chip:hover{border-color:var(--blue-border);color:var(--blue);}
+.chip.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.chip .mono{font-family:'Space Mono',monospace;}
+.list-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 4px;}
+.list-count{font-family:'Space Mono',monospace;font-size:0.7rem;font-weight:700;color:var(--ink-mid);}
+.list-hint{font-size:0.67rem;color:var(--ink-soft);font-weight:500;}
+.entry-list{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(16,24,40,0.06), 0 8px 24px -14px rgba(16,24,40,0.14);}
+.entry{border-bottom:1px solid var(--border-soft);}
+.entry:last-child{border-bottom:none;}
+.entry-head{width:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap;text-align:left;
+  background:transparent;border:none;cursor:pointer;padding:11px 14px;font-family:'Inter',sans-serif;}
+.entry-head:hover{background:var(--blue-bg);}
+.entry.open .entry-head{background:var(--blue-bg);}
+.entry-word{font-family:'Space Mono',monospace;font-size:0.9rem;font-weight:700;color:var(--ink);}
+.entry-prep{font-family:'Space Mono',monospace;font-size:0.76rem;font-weight:700;padding:2px 8px;border-radius:6px;}
+.prep-akk{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber);}
+.prep-dat{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue-dark);}
+.entry-kind{font-size:0.56rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-soft);
+  border:1px solid var(--border);border-radius:999px;padding:2px 7px;}
+.entry-box{margin-left:auto;font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;color:var(--ink-soft);
+  background:var(--page-2);border-radius:999px;padding:3px 8px;white-space:nowrap;}
+.entry-box.mastered{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.entry-trans{flex-basis:100%;font-size:0.78rem;color:var(--ink-mid);}
+.entry-forms{flex-basis:100%;font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--ink-soft);}
+.entry-forms strong{color:var(--ink-mid);font-weight:700;}
+.entry-head mark{background:#fef0c7;color:inherit;border-radius:3px;padding:0 1px;}
+.entry-detail{display:none;padding:2px 14px 14px;}
+.entry.open .entry-detail{display:block;}
+.detail-label{font-size:0.58rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink-soft);margin:11px 0 5px;}
+.detail-tip{margin:0;font-size:0.79rem;color:var(--ink-mid);}
+.detail-ex{list-style:none;margin:0;padding:0;}
+.detail-ex li{padding:7px 10px;background:var(--page);border:1px solid var(--border-soft);border-radius:8px;margin-bottom:6px;}
+.detail-ex .de{margin:0;font-size:0.79rem;color:var(--ink);}
+.detail-ex .en{margin:2px 0 0;font-size:0.71rem;color:var(--ink-soft);}
+.detail-sem{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.detail-sem .col{border:1px solid var(--border-soft);border-radius:8px;padding:8px 10px;background:var(--page);}
+.detail-sem .col-head{font-size:0.62rem;font-weight:800;color:var(--ink-mid);margin-bottom:4px;}
+.detail-sem ul{list-style:none;margin:0;padding:0;}
+.detail-sem li{font-size:0.73rem;color:var(--ink-soft);padding:1px 0;}
+.detail-sem .de{font-weight:700;color:var(--ink);}
+.detail-sem .none{font-size:0.73rem;color:var(--ink-soft);margin:0;}
+.detail-drill{margin-top:12px;font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;color:var(--blue);
+  background:var(--blue-bg);border:1px solid var(--blue-border);border-radius:8px;padding:7px 12px;cursor:pointer;}
+.detail-drill:hover{background:#e0eaff;}
+.list-empty{text-align:center;padding:28px 16px;color:var(--ink-soft);font-size:0.82rem;
+  background:var(--card);border:1px solid var(--border);border-radius:14px;}
+@media(max-width:640px){
+  .folder-tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;}
+  .folder-tabs::-webkit-scrollbar{height:0;display:none;}
+  .tab{flex:1 0 auto;font-size:0.74rem;padding:10px 9px;}
+  .chip-row{flex-wrap:nowrap;overflow-x:auto;}
+  .detail-sem{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -287,6 +367,7 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
     <button id="tab-verbs" class="tab active" data-mode="verbs">Verben</button>
     <button id="tab-preps" class="tab" data-mode="preps">Präpositionen</button>
     <button id="tab-weak" class="tab" data-mode="weak">Wiederholen <span class="tab-badge" id="weak-badge">0</span></button>
+    <button id="tab-list" class="tab" data-mode="list">Liste</button>
   </nav>
 
   <div id="box-meter-wrap"></div>
@@ -956,6 +1037,7 @@ function calcDayStreak(dailyDates){
 let progress = null;
 let appState = {
   mode: "verbs",
+  list: { deck: "preps", q: "", filter: "all", open: null },
   currentItem: null,
   isChecked: false,
   session: { score: 0, total: 0 }
@@ -1100,6 +1182,7 @@ const el = id => document.getElementById(id);
 
 function renderBoxMeter(){
   const wrap = el("box-meter-wrap");
+  if(appState.mode === "list"){ wrap.innerHTML = ""; return; }
   if(appState.mode === "weak"){
     const remaining = poolForMode("weak").length;
     if(remaining === 0){
@@ -1155,7 +1238,7 @@ function fieldsTemplateFor(item){
   };
 }
 
-function loadNextQuestion(){
+function loadNextQuestion(forceItem){
   appState.isChecked = false;
   el("panel-insights").classList.add("hidden");
 
@@ -1164,7 +1247,7 @@ function loadNextQuestion(){
     el("app-root").innerHTML = `<div class="index-card"><p style="text-align:center;color:var(--ink-soft);margin:20px 0;">Keine Karten in diesem Stapel gerade. Wechsle das Deck, um weiterzumachen.</p></div>`;
     return;
   }
-  appState.currentItem = weightedPick(pool);
+  appState.currentItem = forceItem || weightedPick(pool);
   const t = fieldsTemplateFor(appState.currentItem);
 
   el("app-root").innerHTML = `
@@ -1290,18 +1373,300 @@ function evaluateAnswer(){
   updateHeaderStats();
 }
 
+// =========================================================
+// REFERENCE LIST — searchable index of every card
+// =========================================================
+// Folding lets "uber"/"ueber" both find "über", and "grussen" find "grüßen".
+function foldBare(s){
+  return (s||"").toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss");
+}
+function foldLong(s){
+  return (s||"").toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss");
+}
+function headwordOf(item){
+  return item.type === "verb" ? item.inf : item.word;
+}
+function sortKey(item){
+  return headwordOf(item).replace(/^sich\s+/, "").toLowerCase();
+}
+function searchBlob(item){
+  const parts = item.type === "verb"
+    ? [item.inf, item.pres, item.past, item.perf, item.trans]
+    : [item.word, item.prep, item.case, item.type2, item.trans,
+       item.prep + " " + (item.case === "Accusative" ? "akkusativ akk" : "dativ dat")];
+  const raw = parts.join(" ").toLowerCase();
+  return raw + " | " + foldBare(raw) + " | " + foldLong(raw);
+}
+const LIST_DECKS = {
+  preps: prepositionsDB.slice().sort((a,b) => sortKey(a).localeCompare(sortKey(b), "de")),
+  verbs: irregularVerbsDB.slice().sort((a,b) => sortKey(a).localeCompare(sortKey(b), "de"))
+};
+const LIST_BLOBS = {};
+ALL_ITEMS.forEach(it => { LIST_BLOBS[it.id] = searchBlob(it); });
+
+const PREP_ORDER = ["an","auf","über","mit","für","von","zu","um","nach","vor","in","gegen","aus"];
+const LIST_PREPS = PREP_ORDER.filter(p => prepositionsDB.some(it => it.prep === p))
+  .concat([...new Set(prepositionsDB.map(it => it.prep))].filter(p => !PREP_ORDER.includes(p)).sort());
+
+function listChipsFor(deck){
+  const base = [{ key:"all", label:"All" }];
+  if(deck === "preps"){
+    base.push(
+      { key:"akk",  label:"Accusative" },
+      { key:"dat",  label:"Dative" },
+      { key:"adj",  label:"Adjectives" },
+      { key:"weak", label:"Needs practice" },
+      { key:"done", label:"Mastered" }
+    );
+    LIST_PREPS.forEach(p => base.push({ key:"prep:" + p, label:p, mono:true }));
+  }else{
+    base.push(
+      { key:"sein", label:"Perfekt with sein" },
+      { key:"haben",label:"Perfekt with haben" },
+      { key:"refl", label:"Reflexive" },
+      { key:"weak", label:"Needs practice" },
+      { key:"done", label:"Mastered" }
+    );
+  }
+  return base;
+}
+
+function matchesFilter(item, filter){
+  if(filter === "all") return true;
+  if(filter === "weak") return getBoxInfo(progress, item.id).box < WEAK_CEILING;
+  if(filter === "done") return getBoxInfo(progress, item.id).box === MASTER_BOX;
+  if(item.type === "prep"){
+    if(filter === "akk") return item.case === "Accusative";
+    if(filter === "dat") return item.case === "Dative";
+    if(filter === "adj") return item.type2 === "Adjektiv";
+    if(filter.indexOf("prep:") === 0) return item.prep === filter.slice(5);
+    return true;
+  }
+  if(filter === "sein")  return item.perf.indexOf("ist") === 0 || item.perf.indexOf("hat/ist") === 0;
+  if(filter === "haben") return item.perf.indexOf("hat") === 0;
+  if(filter === "refl")  return /\bsich\b/.test(item.inf) || /\bsich\b/.test(item.perf);
+  return true;
+}
+
+function matchesQuery(item, q){
+  if(!q) return true;
+  const blob = LIST_BLOBS[item.id];
+  const variants = [q.toLowerCase(), foldBare(q), foldLong(q)];
+  return variants.some(v => v && blob.indexOf(v) !== -1);
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+}
+// Highlight only on a literal (accent-exact) hit, so folded matches never
+// mis-slice a word; a missing highlight is harmless, a wrong one is not.
+function highlight(text, q){
+  const safe = escapeHtml(text);
+  if(!q) return safe;
+  const i = text.toLowerCase().indexOf(q.toLowerCase());
+  if(i === -1) return safe;
+  return escapeHtml(text.slice(0, i))
+    + "<mark>" + escapeHtml(text.slice(i, i + q.length)) + "</mark>"
+    + escapeHtml(text.slice(i + q.length));
+}
+
+function boxPill(item){
+  const box = getBoxInfo(progress, item.id).box;
+  const cls = box === MASTER_BOX ? "entry-box mastered" : "entry-box";
+  return `<span class="${cls}">${box === MASTER_BOX ? "&#10003; Box 5" : "Box " + box}</span>`;
+}
+
+function entryRowHtml(item, q){
+  const head = headwordOf(item);
+  if(item.type === "prep"){
+    const caseCls = item.case === "Accusative" ? "prep-akk" : "prep-dat";
+    const caseAbbr = item.case === "Accusative" ? "Akk." : "Dat.";
+    const kind = item.type2 === "Adjektiv"
+      ? `<span class="entry-kind">Adjektiv</span>` : "";
+    return `
+      <div class="entry" data-id="${escapeHtml(item.id)}">
+        <button class="entry-head" type="button" data-toggle="1">
+          <span class="entry-word">${highlight(head, q)}</span>
+          <span class="entry-prep ${caseCls}">${highlight(item.prep, q)} + ${caseAbbr}</span>
+          ${kind}
+          ${boxPill(item)}
+          <span class="entry-trans">${highlight(item.trans, q)}</span>
+        </button>
+        <div class="entry-detail"></div>
+      </div>`;
+  }
+  return `
+    <div class="entry" data-id="${escapeHtml(item.id)}">
+      <button class="entry-head" type="button" data-toggle="1">
+        <span class="entry-word">${highlight(head, q)}</span>
+        ${boxPill(item)}
+        <span class="entry-forms">${highlight(item.pres, q)} &middot; <strong>${highlight(item.past, q)}</strong> &middot; <strong>${highlight(item.perf, q)}</strong></span>
+        <span class="entry-trans">${highlight(item.trans, q)}</span>
+      </button>
+      <div class="entry-detail"></div>
+    </div>`;
+}
+
+function currentListItems(){
+  const st = appState.list;
+  const q = st.q.trim();
+  return LIST_DECKS[st.deck].filter(it => matchesFilter(it, st.filter) && matchesQuery(it, q));
+}
+
+function renderListChips(){
+  const st = appState.list;
+  el("list-chips").innerHTML = listChipsFor(st.deck).map(c => `
+    <button class="chip${c.key === st.filter ? " active" : ""}" type="button" data-filter="${c.key}">
+      ${c.mono ? `<span class="mono">${escapeHtml(c.label)}</span>` : escapeHtml(c.label)}
+    </button>`).join("");
+}
+
+function renderListResults(){
+  const st = appState.list;
+  const items = currentListItems();
+  const total = LIST_DECKS[st.deck].length;
+  el("list-count").textContent = items.length === total
+    ? `${total} entries`
+    : `${items.length} of ${total}`;
+  el("list-results").innerHTML = items.length
+    ? `<div class="entry-list">${items.map(it => entryRowHtml(it, st.q.trim())).join("")}</div>`
+    : `<div class="list-empty">Nothing matches &ldquo;${escapeHtml(st.q.trim())}&rdquo; in this deck.<br>Try the other deck, or clear the filter.</div>`;
+}
+
+function itemById(id){
+  return ALL_ITEMS.find(it => it.id === id) || null;
+}
+
+function renderEntryDetail(item, box){
+  const insights = engine.generateTipsAndExamples(item);
+  const sem = lookupSemantics(item);
+  const semCol = (title, list, empty) => `
+    <div class="col">
+      <div class="col-head">${title}</div>
+      ${list.length
+        ? `<ul>${list.map(w => `<li><span class="de">${escapeHtml(w.de)}</span> — ${escapeHtml(w.en)}</li>`).join("")}</ul>`
+        : `<p class="none">${empty}</p>`}
+    </div>`;
+  box.innerHTML = `
+    <div class="detail-label">Memory hook</div>
+    <p class="detail-tip">${insights.tip}</p>
+    <div class="detail-label">Examples</div>
+    <ul class="detail-ex">${insights.examples.map(ex => `
+      <li><p class="de">${ex.de}</p><p class="en">${escapeHtml(ex.en)}</p></li>`).join("")}</ul>
+    <div class="detail-label">Word field</div>
+    <div class="detail-sem">
+      ${semCol("&#8776; Synonyme", sem.syn, "No close synonyms.")}
+      ${semCol("&#8646; Antonyme", sem.ant, "No clear opposite.")}
+    </div>
+    <button class="detail-drill" type="button" data-drill="${escapeHtml(item.id)}">Drill this card &rarr;</button>`;
+}
+
+function drillItem(item){
+  appState.mode = item.type === "verb" ? "verbs" : "preps";
+  appState.session = { score: 0, total: 0 };
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === appState.mode));
+  loadNextQuestion(item);
+  updateHeaderStats();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderListView(){
+  el("panel-insights").classList.add("hidden");
+  el("box-meter-wrap").innerHTML = "";
+  const st = appState.list;
+  el("app-root").innerHTML = `
+    <div class="list-wrap">
+      <div class="list-toolbar">
+        <div class="seg-row" id="list-decks">
+          <button class="seg${st.deck === "preps" ? " active" : ""}" type="button" data-deck="preps">Präpositionen</button>
+          <button class="seg${st.deck === "verbs" ? " active" : ""}" type="button" data-deck="verbs">Verben</button>
+        </div>
+        <div class="search-field">
+          <span class="search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+          </span>
+          <input id="list-search" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="Search verb, preposition or meaning…" value="${escapeHtml(st.q)}">
+          <button class="search-clear" id="list-clear" type="button" title="Clear">&times;</button>
+        </div>
+        <div class="chip-row" id="list-chips"></div>
+      </div>
+      <div class="list-meta">
+        <span class="list-count" id="list-count"></span>
+        <span class="list-hint">Tap an entry for examples and word field</span>
+      </div>
+      <div id="list-results"></div>
+    </div>`;
+
+  renderListChips();
+  renderListResults();
+
+  const input = el("list-search");
+  input.addEventListener("input", () => {
+    appState.list.q = input.value;
+    appState.list.open = null;
+    renderListResults();
+  });
+  el("list-clear").addEventListener("click", () => {
+    appState.list.q = "";
+    input.value = "";
+    renderListResults();
+    input.focus();
+  });
+  el("list-decks").addEventListener("click", ev => {
+    const btn = ev.target.closest("[data-deck]");
+    if(!btn || btn.dataset.deck === appState.list.deck) return;
+    appState.list.deck = btn.dataset.deck;
+    appState.list.filter = "all";
+    appState.list.open = null;
+    document.querySelectorAll("#list-decks .seg").forEach(b =>
+      b.classList.toggle("active", b.dataset.deck === appState.list.deck));
+    renderListChips();
+    renderListResults();
+  });
+  el("list-chips").addEventListener("click", ev => {
+    const btn = ev.target.closest("[data-filter]");
+    if(!btn) return;
+    appState.list.filter = btn.dataset.filter === appState.list.filter ? "all" : btn.dataset.filter;
+    appState.list.open = null;
+    renderListChips();
+    renderListResults();
+  });
+  el("list-results").addEventListener("click", ev => {
+    const drill = ev.target.closest("[data-drill]");
+    if(drill){
+      const item = itemById(drill.dataset.drill);
+      if(item) drillItem(item);
+      return;
+    }
+    const head = ev.target.closest(".entry-head");
+    if(!head) return;
+    const entry = head.parentElement;
+    const item = itemById(entry.dataset.id);
+    if(!item) return;
+    const detail = entry.querySelector(".entry-detail");
+    const wasOpen = entry.classList.contains("open");
+    entry.parentElement.querySelectorAll(".entry.open").forEach(e => e.classList.remove("open"));
+    if(wasOpen){ appState.list.open = null; return; }
+    if(!detail.innerHTML) renderEntryDetail(item, detail);
+    entry.classList.add("open");
+    appState.list.open = item.id;
+  });
+}
+
 function switchMode(mode){
   if(appState.mode === mode) return;
   appState.mode = mode;
   appState.session = { score: 0, total: 0 };
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === mode));
-  loadNextQuestion();
+  if(mode === "list"){ renderListView(); } else { loadNextQuestion(); }
   updateHeaderStats();
 }
 
 // keyboard
 window.addEventListener("keydown", e => {
   if(e.key === "Enter"){
+    if(appState.mode === "list") return;
     e.preventDefault();
     handleAction();
   }
@@ -1310,6 +1675,7 @@ window.addEventListener("keydown", e => {
 document.getElementById("tab-verbs").addEventListener("click", () => switchMode("verbs"));
 document.getElementById("tab-preps").addEventListener("click", () => switchMode("preps"));
 document.getElementById("tab-weak").addEventListener("click", () => switchMode("weak"));
+document.getElementById("tab-list").addEventListener("click", () => switchMode("list"));
 
 document.getElementById("btn-reset").addEventListener("click", () => {
   const ok = window.confirm("Deinen gesamten Fortschritt (alle Boxen und Serien) wirklich zurücksetzen? Das kann nicht rückgängig gemacht werden.");
@@ -1317,7 +1683,7 @@ document.getElementById("btn-reset").addEventListener("click", () => {
   progress = defaultProgress();
   saveProgress(progress);
   appState.session = { score: 0, total: 0 };
-  loadNextQuestion();
+  if(appState.mode === "list"){ renderListView(); } else { loadNextQuestion(); }
   updateHeaderStats();
 });
 
