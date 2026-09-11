@@ -260,6 +260,11 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
   *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
 }
 
+.hook-trap{display:block;margin-top:8px;padding-top:7px;border-top:1px dashed var(--border);
+  color:var(--amber);font-weight:600;font-style:normal;}
+.hook-trap b{color:var(--amber);font-weight:800;}
+.hook-trap em{font-style:normal;font-weight:700;}
+
 /* ---------- reference list ---------- */
 .list-wrap{display:flex;flex-direction:column;gap:12px;}
 .list-toolbar{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px;
@@ -381,15 +386,15 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
 
   <section id="panel-insights" class="feedback-panel hidden">
     <div class="fp-section">
-      <span class="fp-label">Eselsbrücke</span>
+      <span class="fp-label">Rule &amp; trap</span>
       <p id="insight-tip" class="fp-hook"></p>
     </div>
     <div class="fp-section">
-      <span class="fp-label">Beispiele</span>
+      <span class="fp-label">Examples</span>
       <ul id="insight-examples"></ul>
     </div>
     <div class="fp-section">
-      <span class="fp-label">Wortfeld</span>
+      <span class="fp-label">Word field</span>
       <div class="sem-grid">
         <div class="sem-box syn">
           <div class="sem-head">&#8776; Synonyme</div>
@@ -1065,6 +1070,147 @@ function weightedPick(pool){
 }
 
 // =========================================================
+// EXAMPLES — hand-written sentences, one pair per entry
+// =========================================================
+// Keyed by prepositionsDB.word (the "(future)" / "(past/present)" suffixes
+// included). Two sentences each: the first puts the governed phrase in a plain
+// statement, the second varies the frame — a question, a personal pronoun
+// (auf ihn / von dir make the case audible), or the phrase in the Vorfeld.
+// The bolded span is always preposition + object, so the case ending is what
+// the eye lands on.
+const PREP_EXAMPLES = {
+"abhängen":[["Ob wir fahren, hängt <b>vom Wetter</b> ab.","Whether we go depends on the weather."],["Sie will nicht länger <b>von ihren Eltern</b> abhängen.","She doesn't want to be dependent on her parents any longer."]],
+"abhalten":[["Der Regen hat uns <b>von einem Spaziergang</b> abgehalten.","The rain kept us from going for a walk."],["Nichts konnte ihn <b>von seinem Plan</b> abhalten.","Nothing could keep him from his plan."]],
+"abmelden":[["Ich habe mich <b>vom Newsletter</b> abgemeldet.","I unsubscribed from the newsletter."],["Bitte melde dein Kind rechtzeitig <b>vom Schwimmkurs</b> ab.","Please sign your child out of the swimming course in good time."]],
+"abraten":[["Der Arzt hat ihm <b>von der Operation</b> abgeraten.","The doctor advised him against the operation."],["Ich rate dir dringend <b>von diesem Vertrag</b> ab.","I strongly advise you against this contract."]],
+"achten":[["Achte bitte <b>auf den Verkehr</b>!","Please watch the traffic."],["Beim Einkaufen achtet sie <b>auf jede Zutat</b>.","When she shops she pays attention to every ingredient."]],
+"anfangen":[["Wir fangen <b>mit dem schwierigsten Kapitel</b> an.","We're starting with the hardest chapter."],["Er hat erst spät <b>mit dem Studium</b> angefangen.","He only started his degree late."]],
+"angewiesen":[["Nach dem Unfall war sie <b>auf fremde Hilfe</b> angewiesen.","After the accident she was dependent on outside help."],["Das Dorf ist <b>auf den Bus</b> angewiesen.","The village depends on the bus."]],
+"sich ängstigen":[["Das Kind ängstigt sich <b>vor dem Gewitter</b>.","The child is frightened of the thunderstorm."],["Sie ängstigt sich <b>vor der Prüfung</b>.","She's anxious about the exam."]],
+"ankommen":[["Es kommt <b>auf den ersten Eindruck</b> an.","It all depends on the first impression."],["Bei dieser Arbeit kommt es <b>auf jedes Detail</b> an.","In this job every detail matters."]],
+"anpassen":[["Er hat sich schnell <b>an das neue Team</b> angepasst.","He adapted to the new team quickly."],["Wir müssen die Preise <b>an den Markt</b> anpassen.","We have to adjust the prices to the market."]],
+"antworten":[["Sie hat <b>auf meine Frage</b> nicht geantwortet.","She didn't answer my question."],["<b>Auf diese E-Mail</b> antworte ich erst morgen.","I won't answer this email until tomorrow."]],
+"arbeiten":[["Ich arbeite gerade <b>an einem neuen Projekt</b>.","I'm working on a new project at the moment."],["Sie arbeitet noch <b>an ihrer Aussprache</b>.","She's still working on her pronunciation."]],
+"sich ärgern":[["Ich ärgere mich <b>über den langen Stau</b>.","I'm annoyed about the long traffic jam."],["Er hat sich sehr <b>über die Absage</b> geärgert.","He was really annoyed about the cancellation."]],
+"arm":[["Weißbrot ist arm <b>an Ballaststoffen</b>.","White bread is low in fibre."],["Die Region ist <b>an Rohstoffen</b> arm.","The region is poor in raw materials."]],
+"aufhören":[["Er hat <b>mit dem Rauchen</b> aufgehört.","He stopped smoking."],["Hör endlich <b>mit diesem Unsinn</b> auf!","Stop this nonsense, will you."]],
+"aufpassen":[["Kannst du kurz <b>auf meine Tasche</b> aufpassen?","Can you keep an eye on my bag for a moment?"],["Am Wochenende passt die Oma <b>auf die Kinder</b> auf.","At the weekend grandma looks after the children."]],
+"sich aufregen":[["Reg dich nicht <b>über jede Kleinigkeit</b> auf!","Don't get worked up over every little thing."],["Die Nachbarn regen sich <b>über den Lärm</b> auf.","The neighbours are up in arms about the noise."]],
+"sich bedanken":[["Ich möchte mich <b>für Ihre Hilfe</b> bedanken.","I'd like to thank you for your help."],["Sie hat sich herzlich <b>für das Geschenk</b> bedankt.","She said a warm thank you for the present."]],
+"sich befassen":[["Die Kommission befasst sich <b>mit dem Antrag</b>.","The committee is dealing with the application."],["Er befasst sich seit Jahren <b>mit mittelalterlicher Musik</b>.","He has been studying medieval music for years."]],
+"beginnen":[["Der Kurs beginnt <b>mit einer kurzen Vorstellungsrunde</b>.","The course begins with a short round of introductions."],["Wir haben schon <b>mit dem Aufräumen</b> begonnen.","We've already started tidying up."]],
+"sich beklagen":[["Er beklagt sich ständig <b>über das Wetter</b>.","He's forever complaining about the weather."],["Sie beklagte sich <b>über die schlechte Beleuchtung</b>.","She complained about the poor lighting."]],
+"berichten":[["Die Zeitung berichtet ausführlich <b>über den Umbau</b>.","The paper is reporting at length on the renovation."],["Er hat uns <b>über seine Reise</b> berichtet.","He told us about his trip."]],
+"sich beschäftigen":[["Am Abend beschäftigt er sich <b>mit seinen Briefmarken</b>.","In the evening he busies himself with his stamps."],["Die Studie beschäftigt sich <b>mit dem Klimawandel</b>.","The study deals with climate change."]],
+"sich beschweren":[["Der Gast hat sich <b>über das Zimmer</b> beschwert.","The guest complained about the room."],["Wir beschweren uns <b>über die lange Wartezeit</b>.","We're making a complaint about the long wait."]],
+"bestehen":[["Das Team besteht <b>aus fünf Personen</b>.","The team consists of five people."],["Der Ring besteht <b>aus reinem Gold</b>.","The ring is made of pure gold."]],
+"sich bewerben":[["Ich bewerbe mich <b>um die freie Stelle</b>.","I'm applying for the vacancy."],["Er hat sich <b>um ein Stipendium</b> beworben.","He applied for a scholarship."]],
+"bitten":[["Darf ich Sie <b>um einen Gefallen</b> bitten?","May I ask you a favour?"],["Sie bat <b>um mehr Bedenkzeit</b>.","She asked for more time to think it over."]],
+"böse":[["Bist du <b>auf mich</b> böse?","Are you cross with me?"],["Sie war lange <b>auf ihren Bruder</b> böse.","She was angry with her brother for a long time."]],
+"danken":[["Ich danke Ihnen <b>für die schnelle Antwort</b>.","Thank you for the quick reply."],["Er dankte ihr <b>für den guten Rat</b>.","He thanked her for the good advice."]],
+"denken":[["Denk bitte <b>an den Termin</b>!","Please don't forget the appointment."],["Ich habe oft <b>an dich</b> gedacht.","I thought of you often."]],
+"diskutieren":[["Wir haben lange <b>über den Vorschlag</b> diskutiert.","We debated the proposal for a long time."],["Worüber diskutiert ihr? — <b>Über die neuen Regeln</b>.","What are you discussing? — The new rules."]],
+"einladen":[["Sie hat uns <b>zu ihrer Hochzeit</b> eingeladen.","She invited us to her wedding."],["Ich lade dich <b>zum Essen</b> ein.","I'm inviting you out for a meal."]],
+"sich entscheiden":[["Am Ende hat er sich <b>für den günstigeren Wagen</b> entschieden.","In the end he went for the cheaper car."],["Ich kann mich nicht <b>für eine Farbe</b> entscheiden.","I can't decide on a colour."]],
+"sich entschuldigen":[["Er hat sich <b>für die Verspätung</b> entschuldigt.","He apologised for being late."],["Ich möchte mich <b>für mein Verhalten</b> entschuldigen.","I'd like to apologise for the way I behaved."]],
+"sich erinnern":[["Erinnerst du dich <b>an unseren ersten Tag</b>?","Do you remember our first day?"],["Ich erinnere mich kaum noch <b>an ihren Namen</b>.","I can barely remember her name."]],
+"erkennen":[["Ich habe ihn <b>an seiner Stimme</b> erkannt.","I recognised him by his voice."],["Gute Qualität erkennt man <b>an den Details</b>.","You can tell good quality by the details."]],
+"fragen":[["Ein Kunde hat <b>nach dem Preis</b> gefragt.","A customer asked about the price."],["Sie hat gestern <b>nach dir</b> gefragt.","She asked after you yesterday."]],
+"sich freuen (future)":[["Ich freue mich schon <b>auf das Wochenende</b>.","I'm looking forward to the weekend already."],["Freust du dich <b>auf den Umzug</b>?","Are you looking forward to the move?"]],
+"sich freuen (past/present)":[["Sie hat sich sehr <b>über deine Karte</b> gefreut.","She was really pleased with your card."],["Wir freuen uns <b>über jede Rückmeldung</b>.","We're glad of any feedback."]],
+"sich fürchten":[["Viele Menschen fürchten sich <b>vor Spinnen</b>.","A lot of people are afraid of spiders."],["Er fürchtet sich <b>vor dem Ergebnis</b>.","He's dreading the result."]],
+"gehören":[["Geduld gehört <b>zu den wichtigsten Eigenschaften</b> in diesem Beruf.","Patience is one of the most important qualities in this job."],["Gehört der Schlüssel <b>zu diesem Schrank</b>?","Does this key belong to this cupboard?"]],
+"sich gewöhnen":[["<b>An das kalte Wetter</b> habe ich mich nie gewöhnt.","I never did get used to the cold weather."],["Man gewöhnt sich schnell <b>an den Luxus</b>.","You get used to luxury fast."]],
+"glauben":[["Sie glaubt fest <b>an den Erfolg des Projekts</b>.","She firmly believes the project will succeed."],["Ich glaube <b>an dich</b>.","I believe in you."]],
+"gratulieren":[["Wir gratulieren dir <b>zum bestandenen Examen</b>!","Congratulations on passing your exam."],["Er hat mir <b>zur Beförderung</b> gratuliert.","He congratulated me on the promotion."]],
+"hoffen":[["Wir hoffen <b>auf besseres Wetter</b>.","We're hoping for better weather."],["Die Familie hofft <b>auf ein Wunder</b>.","The family is hoping for a miracle."]],
+"sich interessieren":[["Er interessiert sich <b>für alte Autos</b>.","He's interested in old cars."],["Wofür interessierst du dich? — <b>Für Geschichte</b>.","What are you interested in? — History."]],
+"interessiert":[["Wir sind <b>an einer langfristigen Zusammenarbeit</b> interessiert.","We're interested in a long-term partnership."],["Sind Sie <b>an unserem Angebot</b> interessiert?","Are you interested in our offer?"]],
+"sich konzentrieren":[["Konzentrier dich <b>auf das Wesentliche</b>!","Focus on what matters."],["Sie konzentriert sich ganz <b>auf ihre Doktorarbeit</b>.","She's focusing entirely on her doctorate."]],
+"sich kümmern":[["Wer kümmert sich <b>um den Hund</b>?","Who's looking after the dog?"],["Ich kümmere mich <b>um die Anmeldung</b>.","I'll take care of the registration."]],
+"leiden":[["Er leidet <b>an einer chronischen Krankheit</b>.","He suffers from a chronic illness."],["Sie litt jahrelang <b>an starken Kopfschmerzen</b>.","She suffered from severe headaches for years."]],
+"nachdenken":[["Ich muss noch <b>über dein Angebot</b> nachdenken.","I still need to think your offer over."],["Sie hat lange <b>über einen Wechsel</b> nachgedacht.","She thought long and hard about making a change."]],
+"passen":[["Die Krawatte passt gut <b>zu deinem Hemd</b>.","The tie goes well with your shirt."],["Der Job passt genau <b>zu ihren Stärken</b>.","The job matches her strengths exactly."]],
+"protestieren":[["Tausende protestierten <b>gegen das neue Gesetz</b>.","Thousands protested against the new law."],["Die Belegschaft protestiert <b>gegen die Kürzungen</b>.","The workforce is protesting against the cuts."]],
+"reagieren":[["Er hat gelassen <b>auf die Kritik</b> reagiert.","He reacted calmly to the criticism."],["Der Markt reagiert sofort <b>auf jede Nachricht</b>.","The market reacts instantly to every piece of news."]],
+"reden":[["Wir müssen <b>über das Geld</b> reden.","We need to talk about the money."],["<b>Über dieses Thema</b> redet niemand gern.","Nobody likes talking about this subject."]],
+"schmecken":[["Die Soße schmeckt stark <b>nach Knoblauch</b>.","The sauce tastes strongly of garlic."],["Das Eis schmeckt <b>nach frischen Erdbeeren</b>.","The ice cream tastes of fresh strawberries."]],
+"sorgen":[["Bitte sorgen Sie <b>für einen ruhigen Ablauf</b>.","Please see to it that everything runs smoothly."],["Er sorgt allein <b>für seine Familie</b>.","He provides for his family on his own."]],
+"sich sorgen":[["Die Eltern sorgen sich <b>um ihren Sohn</b>.","The parents are worried about their son."],["Sie sorgt sich <b>um ihre Zukunft</b>.","She's anxious about her future."]],
+"sprechen":[["Der Chef möchte <b>über die neuen Ziele</b> sprechen.","The boss wants to talk about the new targets."],["Wir haben lange <b>über alte Zeiten</b> gesprochen.","We talked about old times for ages."]],
+"sterben":[["Er ist <b>an einem Herzinfarkt</b> gestorben.","He died of a heart attack."],["Viele Bäume sterben <b>an der Trockenheit</b>.","Many trees are dying from the drought."]],
+"stolz":[["Wir sind sehr stolz <b>auf dich</b>.","We're very proud of you."],["Sie ist zu Recht stolz <b>auf ihren Abschluss</b>.","She's rightly proud of her degree."]],
+"suchen":[["Die Polizei sucht <b>nach dem Fahrer</b>.","The police are searching for the driver."],["Er sucht seit Monaten <b>nach einer Wohnung</b>.","He's been looking for a flat for months."]],
+"teilnehmen":[["Sie nimmt <b>an einem Sprachkurs</b> teil.","She's taking part in a language course."],["Wie viele Leute haben <b>an der Sitzung</b> teilgenommen?","How many people attended the meeting?"]],
+"träumen":[["Sie träumt <b>von einem eigenen Café</b>.","She dreams of having her own café."],["Ich habe heute Nacht <b>von dir</b> geträumt.","I dreamt about you last night."]],
+"sich treffen":[["Ich treffe mich morgen <b>mit einem alten Freund</b>.","I'm meeting an old friend tomorrow."],["Sie hat sich <b>mit ihren Kolleginnen</b> getroffen.","She met up with her colleagues."]],
+"überzeugt":[["Ich bin <b>von dieser Lösung</b> überzeugt.","I'm convinced this is the right solution."],["Er ist völlig <b>von sich selbst</b> überzeugt.","He's completely full of himself."]],
+"sich unterhalten":[["Wir haben uns lange <b>über das Buch</b> unterhalten.","We had a long chat about the book."],["<b>Worüber</b> habt ihr euch unterhalten?","What did the two of you chat about?"]],
+"sich verlassen":[["Du kannst dich <b>auf mich</b> verlassen.","You can rely on me."],["Sie verlässt sich ganz <b>auf ihr Gefühl</b>.","She goes entirely on instinct."]],
+"sich verlieben":[["Er hat sich <b>in seine Nachbarin</b> verliebt.","He fell in love with his neighbour."],["Wir haben uns sofort <b>in die Stadt</b> verliebt.","We fell in love with the city straight away."]],
+"verantwortlich":[["Wer ist <b>für den Fehler</b> verantwortlich?","Who's responsible for the mistake?"],["Sie ist <b>für das gesamte Team</b> verantwortlich.","She's responsible for the whole team."]],
+"warten":[["Wir warten schon eine Stunde <b>auf den Bus</b>.","We've been waiting for the bus for an hour."],["<b>Worauf</b> wartest du noch?","What are you still waiting for?"]],
+"zufrieden":[["Sind Sie <b>mit dem Ergebnis</b> zufrieden?","Are you satisfied with the result?"],["Er ist <b>mit seinem neuen Rad</b> sehr zufrieden.","He's very happy with his new bike."]],
+"zweifeln":[["Niemand zweifelt <b>an seiner Ehrlichkeit</b>.","Nobody doubts his honesty."],["Sie begann <b>an sich selbst</b> zu zweifeln.","She began to doubt herself."]]
+};
+
+// Second line under the case rule — only where English or a near-twin German
+// verb actively pulls you the wrong way.
+const PREP_TRAPS = {
+"warten":"English waits <b>for</b> — German waits <b>auf</b> + accusative. Never <span style=\"text-decoration:line-through\">warten für</span>.",
+"denken":"denken <b>an</b> + acc. = to have in mind; nachdenken <b>über</b> + acc. = to ponder, turn over.",
+"nachdenken":"nachdenken <b>über</b> + acc. = to ponder at length; denken <b>an</b> + acc. = simply to have in mind.",
+"bitten":"bitten <b>um</b> + acc. = to ask FOR something; fragen <b>nach</b> + dat. = to ask ABOUT something.",
+"fragen":"fragen <b>nach</b> + dat. = to enquire about; bitten <b>um</b> + acc. = to request something.",
+"antworten":"antworten <b>auf</b> + acc. (auf die Frage), but beantworten takes a bare accusative: die Frage beantworten.",
+"danken":"danken takes the person in the <b>dative</b> and the reason with <b>für</b> + acc.: ich danke dir für alles.",
+"sich bedanken":"Same split as danken: sich <b>bei</b> jemandem (dat.) <b>für</b> etwas (acc.) bedanken.",
+"sich freuen (future)":"The one pair worth drilling daily: <b>auf</b> + acc. points forward, <b>über</b> + acc. points back at something that already happened.",
+"sich freuen (past/present)":"The mirror of sich freuen auf: <b>über</b> + acc. is the thing that already happened, <b>auf</b> + acc. is still to come.",
+"leiden":"leiden <b>an</b> + dat. = to suffer from an illness; leiden <b>unter</b> + dat. = to suffer under conditions (noise, heat, a boss).",
+"sterben":"sterben <b>an</b> + dat. — the cause sits in the dative, unlike almost every other an-verb here.",
+"bestehen":"Three meanings, three prepositions: bestehen <b>aus</b> + dat. = consist of, bestehen <b>in</b> + dat. = lie in, bestehen <b>auf</b> + dat. = insist on.",
+"sich interessieren":"The verb takes <b>für</b> + acc., but the adjective takes <b>an</b> + dat.: interessiert an etwas.",
+"interessiert":"The adjective takes <b>an</b> + dat., the verb takes <b>für</b> + acc.: sich für etwas interessieren.",
+"sorgen":"sorgen <b>für</b> + acc. = to see to, provide for; sich sorgen <b>um</b> + acc. = to worry. The reflexive pronoun flips the meaning.",
+"sich sorgen":"sich sorgen <b>um</b> + acc. = to worry; plain sorgen <b>für</b> + acc. = to take care of. Drop the sich and the meaning changes.",
+"sich verlieben":"<b>in</b> + accusative even though nobody moves anywhere — proof that the verb, not wohin?, picks the case.",
+"sich gewöhnen":"<b>an</b> + accusative here, though it describes a settled state. The verb decides, not the logic.",
+"teilnehmen":"<b>an</b> + dative — the twin of sich gewöhnen an + acc. Same preposition, opposite case, set by the verb.",
+"erkennen":"erkennen <b>an</b> + dat. = to identify BY a feature. The feature is the resting point, hence dative.",
+"arbeiten":"arbeiten <b>an</b> + dat. = to work on a task; arbeiten <b>bei</b> + dat. = to work FOR an employer.",
+"gehören":"gehören <b>zu</b> + dat. = to be part of; gehören alone with a bare dative = to be someone's property: das Buch gehört mir.",
+"ankommen":"Almost always impersonal: <b>es kommt auf</b> + acc. <b>an</b> = it depends on. Fixed phrase, learn it whole.",
+"abhängen":"abhängen <b>von</b> + dat. = to depend on; angewiesen <b>auf</b> + acc. = reliant on. Same idea, opposite case.",
+"angewiesen":"angewiesen <b>auf</b> + acc. = reliant on; abhängen <b>von</b> + dat. = to depend on. Same idea, opposite case.",
+"glauben":"glauben <b>an</b> + acc. = to believe IN; glauben with a bare dative = to believe a person: ich glaube dir.",
+"schmecken":"schmecken <b>nach</b> + dat. = to taste OF; schmecken with a bare dative = to taste good TO someone: es schmeckt mir.",
+"zweifeln":"zweifeln <b>an</b> + dat. = to doubt something; bezweifeln takes a bare accusative: ich bezweifle das.",
+"sich ärgern":"sich ärgern <b>über</b> + acc. = to be annoyed about. The trigger is accusative, even though the annoyance just sits there.",
+"träumen":"träumen <b>von</b> + dat. — the dream comes FROM somewhere, so dative, both for the night-time and the ambition sense."
+};
+
+const ALWAYS_DATIVE_PREPS = ["aus","bei","mit","nach","seit","von","zu"];
+const ALWAYS_ACC_PREPS = ["durch","für","gegen","ohne","um"];
+
+// The case rule, stated the way it actually works — not as a wohin?/wo? story,
+// which is exactly wrong for a verb-governed two-way preposition.
+function prepCaseRule(item){
+  const p = item.prep;
+  const caseName = item.case === "Accusative" ? "accusative" : "dative";
+  const w = item.word.replace(/\s*\([^)]*\)\s*$/, "").trim();
+  let line = `<b>${w}</b> governs <b>${p} + ${item.case}</b> — learn the three as one unit.`;
+  if(ALWAYS_DATIVE_PREPS.indexOf(p) !== -1){
+    line += ` Easy half: <b>${p}</b> is one of the always-dative prepositions (aus, bei, mit, nach, seit, von, zu), so the case never varies, whatever the verb.`;
+  }else if(ALWAYS_ACC_PREPS.indexOf(p) !== -1){
+    line += ` Easy half: <b>${p}</b> is always accusative (durch, für, gegen, ohne, um) — nothing to weigh up.`;
+  }else{
+    line += ` <b>${p}</b> is a two-way preposition, but here the case is fixed by the verb, not by wohin?/wo? — nothing is moving, so the ${caseName} has to be memorised with the verb.`;
+  }
+  return line;
+}
+
+// =========================================================
 // INSIGHT ENGINE
 // =========================================================
 const engine = {
@@ -1077,15 +1223,15 @@ const engine = {
       const stemPast = item.past.split(" ")[0];
       // The Perfekt participle (with any prefix fused on) is always the LAST token.
       const stemPerf = item.perf.split(" ").pop();
-      let hook = `Merk dir den Vokalwechsel: <strong>${item.inf}</strong> &rarr; <strong>${stemPast}</strong> &rarr; <strong>${stemPerf}</strong>.`;
+      let hook = `Vowel change to lock in: <strong>${item.inf}</strong> &rarr; <strong>${stemPast}</strong> &rarr; <strong>${stemPerf}</strong>.`;
       if(isSein){
-        hook += ` <span style="color:#3f7a5a;font-weight:700;">Nimmt "ist"</span> — das Verb beschreibt eine Zustandsänderung oder Bewegung von A nach B.`;
+        hook += ` <span style="color:#3f7a5a;font-weight:700;">Takes "ist"</span> — the verb describes a change of state, or movement from A to B.`;
       }else{
-        hook += ` Nimmt das normale Hilfsverb "hat".`;
+        hook += ` Takes the ordinary auxiliary "hat".`;
       }
       // Only real prefix verbs (angeben, aufgeben, zugeben) — never the bare root.
       if(item.inf !== "geben" && /geben$/.test(item.inf)){
-        hook = `Präfix-Alarm! Die Wurzel ist <strong>geben</strong> (gab, gegeben). Das Präfix bleibt im Präteritum getrennt und wandert ans Ende.`;
+        hook = `Prefix alert! The root is <strong>geben</strong> (gab, gegeben). In the Präteritum the prefix splits off and moves to the end of the clause.`;
       }
       const glossVerb = item.trans.replace(/^to\s+/, "").split(" / ")[0].trim();
 
@@ -1140,15 +1286,20 @@ const engine = {
       const fillerEn2 = "the outcome";
       const transTail = item.trans.replace(/^to\s+/, "").split(" / ").pop().trim();
 
-      let hook = `<strong>${item.word}</strong> verlangt <strong>${item.prep} + ${item.case}</strong>.`;
-      if(isAccusative){
-        hook += ` Denk an Akkusativ hier als Richtung oder Ziel — etwas, worauf man zusteuert.`;
-      }else{
-        hook += ` Denk an Dativ hier als festen Ort oder Zustand — ein ruhiger Bezugspunkt.`;
+      const hook = prepCaseRule(item)
+        + (PREP_TRAPS[item.word] ? `<span class="hook-trap">${PREP_TRAPS[item.word]}</span>` : "");
+
+      // Hand-written sentences per entry. The generated frame below is only a
+      // safety net for an entry added to prepositionsDB without a pair — it
+      // produces grammatical but meaningless German ("Man kann von dieser
+      // Situation abmelden"), so keep PREP_EXAMPLES in step with the data.
+      const curated = PREP_EXAMPLES[item.word];
+      if(curated){
+        return {
+          tip: hook,
+          examples: curated.map(pair => ({ de: pair[0], en: pair[1] }))
+        };
       }
-      if(cleanWord.includes("warten")) hook = `Eselsbrücke: Man wartet nicht "für" jemanden — man wartet "auf" (Akkusativ) das Ziel, auf das man zusteuert!`;
-      else if(cleanWord.includes("ärgern")) hook = `Eselsbrücke: Der Ärger hängt wie eine Wolke "über" (Akkusativ) dir.`;
-      else if(cleanWord.includes("träumen")) hook = `Eselsbrücke: Träume kommen "von" (Dativ) irgendwoher — aus dem Unterbewusstsein.`;
 
       let de1, de2;
       if(item.type2 === "Adjektiv"){
@@ -1548,7 +1699,7 @@ function renderEntryDetail(item, box){
         : `<p class="none">${empty}</p>`}
     </div>`;
   box.innerHTML = `
-    <div class="detail-label">Memory hook</div>
+    <div class="detail-label">Rule &amp; trap</div>
     <p class="detail-tip">${insights.tip}</p>
     <div class="detail-label">Examples</div>
     <ul class="detail-ex">${insights.examples.map(ex => `
