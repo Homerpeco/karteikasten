@@ -1,6 +1,6 @@
 // Karteikasten service worker — offline-first for a tiny static app.
 // Bump CACHE_VERSION whenever you redeploy so clients pick up the new build.
-const CACHE_VERSION = "karteikasten-v4";
+const CACHE_VERSION = "karteikasten-v5";
 const ASSETS = [
   "./",
   "./index.html",

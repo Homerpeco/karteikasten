@@ -394,7 +394,7 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
       <span class="fp-label">Examples</span>
       <ul id="insight-examples"></ul>
     </div>
-    <div class="fp-section">
+    <div class="fp-section" id="fp-wortfeld">
       <span class="fp-label">Word field</span>
       <div class="sem-grid">
         <div class="sem-box syn">
@@ -1881,8 +1881,9 @@ function evaluateAnswer(){
         `<li><span class="de">${w.de}</span> — ${w.en}</li>`
       ).join("") + `</ul>`
     : `<p class="sem-none">${emptyMsg}</p>`;
-  el("insight-syn").innerHTML = renderSem(sem.syn, "Keine passenden Synonyme.");
-  el("insight-ant").innerHTML = renderSem(sem.ant, "Kein klares Gegenteil.");
+  el("insight-syn").innerHTML = renderSem(sem.syn, "No close synonyms.");
+  el("insight-ant").innerHTML = renderSem(sem.ant, "No clear opposite.");
+  el("fp-wortfeld").hidden = sem.syn.length === 0 && sem.ant.length === 0;
 
   el("panel-insights").classList.remove("hidden");
 
@@ -2078,11 +2079,12 @@ function renderEntryDetail(item, box){
     <div class="detail-label">Examples</div>
     <ul class="detail-ex">${insights.examples.map(ex => `
       <li><p class="de">${ex.de}</p><p class="en">${escapeHtml(ex.en)}</p></li>`).join("")}</ul>
+    ${(sem.syn.length || sem.ant.length) ? `
     <div class="detail-label">Word field</div>
     <div class="detail-sem">
       ${semCol("&#8776; Synonyme", sem.syn, "No close synonyms.")}
       ${semCol("&#8646; Antonyme", sem.ant, "No clear opposite.")}
-    </div>
+    </div>` : ""}
     <button class="detail-drill" type="button" data-drill="${escapeHtml(item.id)}">Drill this card &rarr;</button>`;
 }
 
