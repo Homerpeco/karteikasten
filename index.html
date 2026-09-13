@@ -439,12 +439,98 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
   .cluster-drill{margin-left:0;}
   .course-intro{padding:13px 13px;}
 }
+
+/* =========================================================
+   DESKTOP — a rail for the chrome, the full width for the content
+   ========================================================= */
+@media(min-width:1024px){
+  .app-shell{
+    max-width:1560px;
+    display:grid;
+    grid-template-columns:266px minmax(0,1fr);
+    grid-template-areas:"rail main" "rail foot";
+    align-content:start;
+    gap:0 28px;
+    padding:26px 28px 44px;
+  }
+  .rail{grid-area:rail;position:sticky;top:26px;display:flex;flex-direction:column;gap:14px;}
+  .main{grid-area:main;min-width:0;}
+  .app-footer{grid-area:foot;margin-top:22px;}
+
+  /* rail: brand, then stats stacked as rows, then a vertical nav */
+  .header-row{flex-direction:column;align-items:stretch;gap:14px;margin-bottom:0;}
+  .brand{gap:11px;align-items:center;}
+  .brand h1{font-size:1.24rem;}
+  .subtitle-de{font-size:0.72rem;line-height:1.35;}
+  .subtitle-en{display:none;}
+  .stats-row{flex-direction:column;gap:6px;}
+  .stat-chip{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    padding:9px 13px;min-width:0;text-align:left;}
+  .stat-chip .num{display:inline;font-size:0.95rem;}
+  .stat-chip .lbl{font-size:0.58rem;}
+
+  .folder-tabs{flex-direction:column;gap:3px;margin-bottom:0;padding:6px;}
+  .tab{justify-content:flex-start;padding:10px 12px;font-size:0.82rem;gap:8px;}
+  .tab .tab-badge{margin-left:auto;}
+
+  /* drill views: the card on the left, its feedback beside it instead of below */
+  .main{display:grid;gap:16px 20px;align-items:start;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    grid-template-areas:"card panel";}
+  #app-root{grid-area:card;}
+  #panel-insights{grid-area:panel;margin-top:0;position:sticky;top:26px;}
+  .box-meter{margin-bottom:0;}
+  .box-slot .bar-track{height:34px;}
+  .cluster-banner{margin-bottom:0;}
+
+  /* reference and course views want the whole width instead */
+  body[data-mode="list"] .main,
+  body[data-mode="kurs"] .main{
+    grid-template-columns:minmax(0,1fr);
+    grid-template-areas:"card" "panel";}
+
+  /* the course: clusters side by side instead of one long column */
+  /* .phase.open .phase-body sets display:block and out-specifies a bare
+     .phase-body rule, so the grid has to be declared at the same specificity */
+  .phase.open .phase-body{display:grid;gap:0 22px;
+    grid-template-columns:repeat(auto-fit, minmax(330px, 1fr));
+    align-items:start;padding-bottom:18px;}
+  .phase-lead, .contrast, .phase-drill{grid-column:1/-1;}
+  .cluster{border-top:none;border:1px solid var(--border-soft);border-radius:11px;
+    padding:13px 14px;margin-top:14px;background:var(--page);}
+  .cluster-demo{background:#fff;}
+  .course-intro p{max-width:78ch;}
+  .phase-lead{max-width:88ch;}
+
+  /* the reference list: two columns, an opened entry spans both */
+  .entry-list{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));}
+  .entry{border-bottom:1px solid var(--border-soft);}
+  .entry:nth-child(odd){border-right:1px solid var(--border-soft);}
+  .entry.open{grid-column:1/-1;border-right:none;}
+  .list-toolbar{position:sticky;top:26px;z-index:5;}
+  .seg-row{max-width:560px;}
+  .search-field{max-width:760px;}
+}
+
+@media(min-width:1440px){
+  .main{grid-template-columns:minmax(0,1.02fr) minmax(0,0.98fr);}
+  .entry-list{grid-template-columns:repeat(3, minmax(0,1fr));}
+  .entry:nth-child(odd){border-right:none;}
+  .entry:not(:nth-child(3n)){border-right:1px solid var(--border-soft);}
+}
+
+/* a large screen can carry slightly larger type; everything is in rem */
+@media(min-width:1600px){
+  html{font-size:17px;}
+  .app-shell{max-width:1680px;}
+}
 </style>
 </head>
 <body>
 
 <div class="app-shell">
 
+  <aside class="rail">
   <header class="header-row">
     <div class="brand">
       <div class="seal">
@@ -471,9 +557,10 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
     <button id="tab-weak" class="tab" data-mode="weak"><span class="t-full">Wiederholen</span><span class="t-abbr">Wdh.</span> <span class="tab-badge" id="weak-badge">0</span></button>
     <button id="tab-list" class="tab" data-mode="list"><span class="t-full">Liste</span><span class="t-abbr">Liste</span></button>
   </nav>
-
   <div id="box-meter-wrap"></div>
+  </aside>
 
+  <div class="main">
   <div id="app-root">
     <div class="loading-wrap">
       <div class="spinner"></div>
@@ -504,6 +591,7 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
       </div>
     </div>
   </section>
+  </div>
 
   <footer class="app-footer">
     <div class="footer-actions">
@@ -2615,6 +2703,7 @@ function renderCourseView(){
 function practiceCluster(label, cards){
   appState.cluster = { label, ids: cards.map(c => c.id) };
   appState.mode = "adj";
+  document.body.dataset.mode = "adj";
   appState.session = { score: 0, total: 0 };
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === "adj"));
   loadNextQuestion();
@@ -2624,6 +2713,7 @@ function practiceCluster(label, cards){
 
 function drillItem(item){
   appState.mode = item.type === "verb" ? "verbs" : item.type === "adj" ? "adj" : "preps";
+  document.body.dataset.mode = appState.mode;
   appState.session = { score: 0, total: 0 };
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === appState.mode));
   loadNextQuestion(item);
@@ -2727,6 +2817,7 @@ function renderListView(){
 
 function switchMode(mode){
   if(appState.mode === mode) return;
+  document.body.dataset.mode = mode;
   if(mode !== "adj") appState.cluster = null;
   appState.mode = mode;
   appState.session = { score: 0, total: 0 };
@@ -2847,6 +2938,7 @@ if("serviceWorker" in navigator){
 // INIT
 // =========================================================
 (function init(){
+  document.body.dataset.mode = appState.mode;
   progress = loadProgress();
   loadNextQuestion();
   updateHeaderStats();
