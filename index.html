@@ -358,6 +358,87 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
   .chip-more{display:block;}
   .detail-sem{grid-template-columns:1fr;}
 }
+
+/* ---------- course ---------- */
+.course{display:flex;flex-direction:column;gap:12px;}
+.course-intro{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 16px;
+  box-shadow:0 1px 3px rgba(16,24,40,0.06);}
+.course-intro h2{margin:0 0 6px;font-size:1.02rem;font-weight:800;letter-spacing:-0.01em;color:var(--ink);}
+.course-intro p{margin:0;font-size:0.82rem;line-height:1.5;color:var(--ink-mid);}
+.phase{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(16,24,40,0.06);}
+.phase-head{width:100%;display:flex;align-items:center;gap:9px;flex-wrap:wrap;text-align:left;
+  background:transparent;border:none;cursor:pointer;padding:14px 15px;font-family:'Inter',sans-serif;}
+.phase-head:hover{background:var(--blue-bg);}
+.phase.open .phase-head{background:var(--blue-bg);border-bottom:1px solid var(--border-soft);}
+.phase-num{font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--blue);background:#fff;border:1px solid var(--blue-border);
+  border-radius:999px;padding:3px 8px;}
+.phase-title{font-size:0.94rem;font-weight:800;color:var(--ink);}
+.phase-count{margin-left:auto;font-family:'Space Mono',monospace;font-size:0.66rem;color:var(--ink-soft);}
+.phase-chev{font-size:0.7rem;color:var(--ink-soft);transition:transform .18s ease;}
+.phase.open .phase-chev{transform:rotate(180deg);}
+.phase-body{display:none;padding:4px 15px 15px;}
+.phase.open .phase-body{display:block;}
+.phase-lead{margin:12px 0 4px;font-size:0.83rem;line-height:1.55;color:var(--ink-mid);}
+.phase-lead b{color:var(--ink);}
+
+.cluster{border-top:1px solid var(--border-soft);padding-top:13px;margin-top:13px;}
+.cluster-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.cluster-prep{font-family:'Space Mono',monospace;font-size:0.84rem;font-weight:700;padding:3px 9px;
+  border-radius:7px;background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue-dark);}
+.cluster-prep.akk{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);}
+.cluster-prep.nom{background:var(--green-bg);border-color:var(--green-border);color:var(--green);}
+.cluster-prep.mix{background:var(--page-2);border-color:var(--border);color:var(--ink-mid);}
+.cluster-drill{margin-left:auto;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:700;
+  padding:6px 11px;border-radius:999px;cursor:pointer;white-space:nowrap;
+  background:var(--blue);border:1px solid var(--blue);color:#fff;}
+.cluster-drill:hover{background:var(--blue-dark);}
+.cluster-gloss{margin:7px 0 0;font-size:0.81rem;line-height:1.5;color:var(--ink-mid);}
+.cluster-note{margin:6px 0 0;font-size:0.76rem;line-height:1.45;color:var(--amber);font-weight:600;}
+.cluster-words{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;}
+.word-chip{font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;padding:4px 9px;
+  border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--ink);cursor:pointer;}
+.word-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+.cluster-demo{margin-top:9px;padding:8px 11px;background:var(--page);border:1px solid var(--border-soft);
+  border-radius:8px;}
+.cluster-demo .de{margin:0;font-size:0.8rem;color:var(--ink);}
+.cluster-demo .en{margin:2px 0 0;font-size:0.72rem;color:var(--ink-soft);}
+
+.contrast{margin-top:15px;padding:12px 13px;border-radius:10px;background:var(--amber-bg);
+  border:1px solid var(--amber-border);}
+.contrast-head{font-size:0.7rem;font-weight:800;letter-spacing:0.03em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:8px;}
+.contrast-row{margin-bottom:7px;}
+.contrast-row:last-child{margin-bottom:0;}
+.contrast-row .de{margin:0;font-size:0.82rem;color:var(--ink);}
+.contrast-row .en{margin:1px 0 0;font-size:0.72rem;color:var(--ink-mid);font-weight:600;}
+.phase-drill{width:100%;margin-top:15px;font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:700;
+  padding:10px;border-radius:9px;cursor:pointer;background:var(--blue-bg);border:1px solid var(--blue-border);
+  color:var(--blue);}
+.phase-drill:hover{background:#e0eaff;}
+
+.cluster-banner{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px;padding:9px 12px;
+  border-radius:10px;background:var(--blue-bg);border:1px solid var(--blue-border);}
+.cluster-banner .lbl{font-size:0.76rem;font-weight:700;color:var(--blue-dark);}
+.cluster-banner .num{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--blue-dark);}
+.cluster-banner button{margin-left:auto;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:700;
+  padding:5px 10px;border-radius:999px;cursor:pointer;background:#fff;border:1px solid var(--blue-border);
+  color:var(--blue);white-space:nowrap;}
+.cluster-banner button:hover{background:var(--blue);color:#fff;}
+
+@media(max-width:640px){
+  .brand{display:none;}
+  .header-row{margin-bottom:12px;}
+  .app-shell{padding-top:12px;}
+  .stats-row{width:100%;}
+  .stats-row .stat-chip{flex:1;min-width:0;}
+  .phase-head{padding:12px 12px;gap:7px;}
+  .phase-title{font-size:0.88rem;}
+  .phase-body{padding:4px 12px 13px;}
+  .cluster-drill{margin-left:0;}
+  .course-intro{padding:13px 13px;}
+}
 </style>
 </head>
 <body>
@@ -386,6 +467,7 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
     <button id="tab-verbs" class="tab active" data-mode="verbs"><span class="t-full">Verben</span><span class="t-abbr">Verben</span></button>
     <button id="tab-preps" class="tab" data-mode="preps"><span class="t-full">Präpositionen</span><span class="t-abbr">Präp.</span></button>
     <button id="tab-adj" class="tab" data-mode="adj"><span class="t-full">Adjektive</span><span class="t-abbr">Adj.</span></button>
+    <button id="tab-kurs" class="tab" data-mode="kurs"><span class="t-full">Kurs</span><span class="t-abbr">Kurs</span></button>
     <button id="tab-weak" class="tab" data-mode="weak"><span class="t-full">Wiederholen</span><span class="t-abbr">Wdh.</span> <span class="tab-badge" id="weak-badge">0</span></button>
     <button id="tab-list" class="tab" data-mode="list"><span class="t-full">Liste</span><span class="t-abbr">Liste</span></button>
   </nav>
@@ -924,6 +1006,133 @@ const adjectivesDB = [
 ].map(a => ({ ...a, type: "adj", type2: "Adjektiv",
               id: a.legacyId || ("adj:" + (a.key || a.word)) }));
 
+// =========================================================
+// COURSE — the adjectives grouped by what the preposition signals
+// =========================================================
+// Learning 74 adjectives alphabetically does not work. Grouped by the job the
+// preposition does, the same list becomes about a dozen patterns. Every card in
+// adjectivesDB belongs to exactly one group (asserted at load).
+const ADJ_COURSE = [
+  {
+    id: "p1",
+    title: "Emotional reactions",
+    lead: "How you feel about something. The preposition decides whether the feeling is a <b>reaction to an event</b> or is <b>aimed at a person</b>.",
+    groups: [
+      { prep:"über", kasus:"Accusative",
+        gloss:"Your reaction to an event, a piece of news, a situation.",
+        demo:"froh",
+        words:["beunruhigt","entsetzt","erfreut","erstaunt","froh","glücklich","traurig","verärgert","verwundert","wütend:über"] },
+      { prep:"auf", kasus:"Accusative",
+        gloss:"Aimed at a person, or at something still to come.",
+        demo:"gespannt",
+        words:["böse","eifersüchtig","gespannt","neugierig","stolz","wütend:auf"] },
+      { prep:"vor", kasus:"Dative",
+        gloss:"A state that comes over you, not one you choose.",
+        note:"No article after vor here: blass vor Schreck, stumm vor Staunen.",
+        demo:"blass",
+        words:["blass","stumm"] },
+      { prep:"in / nach", kasus:"Akk. / Dat.",
+        gloss:"Longing and attachment: verliebt in + acc., verrückt nach + dat.",
+        demo:"verliebt",
+        words:["verliebt","verrückt"] }
+    ],
+    contrast:{ head:"wütend takes both — and the preposition changes the target",
+      a:"Sie ist <b>auf ihren Chef</b> wütend.", an:"aimed at a person",
+      b:"Sie ist <b>über die Entscheidung</b> wütend.", bn:"a reaction to an event" }
+  },
+  {
+    id: "p2",
+    title: "Attitude to people",
+    lead: "How you behave toward others, and how they receive you. <b>Every preposition in this phase takes the dative</b> — that alone removes half the work.",
+    groups: [
+      { prep:"zu", kasus:"Dative",
+        gloss:"How you actually behave toward someone.",
+        demo:"nett",
+        words:["freundlich","gut:zu","nett"] },
+      { prep:"gegenüber", kasus:"Dative",
+        gloss:"Your inner stance toward a person or group.",
+        note:"gegenüber often stands AFTER its noun: neuen Ideen gegenüber aufgeschlossen. In front is equally correct.",
+        demo:"aufgeschlossen",
+        words:["aufgeschlossen","misstrauisch","zurückhaltend"] },
+      { prep:"mit", kasus:"Dative",
+        gloss:"Connection, agreement, kinship — a link between two sides.",
+        demo:"befreundet",
+        words:["befreundet","einverstanden","verwandt","zufrieden"] },
+      { prep:"bei", kasus:"Dative",
+        gloss:"How a group receives you.",
+        demo:"beliebt",
+        words:["bekannt:bei","beliebt"] }
+    ]
+  },
+  {
+    id: "p3",
+    title: "Cause, purpose and effect",
+    lead: "What something is for, what it comes from, what it does to you. This is the largest phase, and <b>an</b> is the one to watch: it takes both cases.",
+    groups: [
+      { prep:"für", kasus:"Accusative",
+        gloss:"Who or what it is good for — and who answers for it.",
+        demo:"wichtig",
+        words:["bekannt:für","charakteristisch","dankbar","entscheidend","geeignet","gut:für","nützlich","schädlich","verantwortlich","wichtig","zuständig"] },
+      { prep:"an", kasus:"Dative",
+        gloss:"A thing you have a share in, or that you are full of or short of.",
+        demo:"reich",
+        words:["arm","beteiligt","interessiert","reich","schuld"] },
+      { prep:"an", kasus:"Accusative",
+        gloss:"A target something moves toward — a habit you settle into, an addressee.",
+        note:"Same preposition as the group above, opposite case. The adjective decides, nothing else.",
+        demo:"gewöhnt",
+        words:["adressiert","gewöhnt"] },
+      { prep:"von", kasus:"Dative",
+        gloss:"The source: what you depend on, what moved you, what you are clear of.",
+        demo:"abhängig",
+        words:["abhängig","beeindruckt","begeistert","entfernt","enttäuscht","frei","müde","überzeugt"] },
+      { prep:"um / gegen", kasus:"Accusative",
+        gloss:"What you fear for (um), and what you resist (gegen).",
+        demo:"besorgt",
+        words:["besorgt","immun"] }
+    ],
+    contrast:{ head:"an is the trap of this phase",
+      a:"Das Land ist reich <b>an Bodenschätzen</b>.", an:"an + dative — a quality it holds",
+      b:"Ich bin <b>an das frühe Aufstehen</b> gewöhnt.", bn:"an + accusative — a state you moved into" }
+  },
+  {
+    id: "p4",
+    title: "Skill, readiness and status",
+    lead: "What you can do, what you are in the middle of, and what you count as.",
+    groups: [
+      { prep:"in / auf", kasus:"Dative",
+        gloss:"The field you are good — or careless — in.",
+        note:"bewandert is the rare one that allows auf + DATIVE, like basieren auf.",
+        demo:"erfahren",
+        words:["bewandert:auf","bewandert:in","erfahren","geschickt","gut:in","nachlässig"] },
+      { prep:"zu", kasus:"Dative",
+        gloss:"What you are ready or able to do.",
+        demo:"bereit",
+        words:["bereit","fähig"] },
+      { prep:"mit", kasus:"Dative",
+        gloss:"The task you are busy with, or done with.",
+        demo:"fertig",
+        words:["beschäftigt","fertig"] },
+      { prep:"als", kasus:"Nominative",
+        gloss:"The role you are recognised in.",
+        note:"als equates two things, so the case copies the subject — nominative, not accusative.",
+        demo:"anerkannt",
+        words:["anerkannt","bekannt:als"] },
+      { prep:"auf", kasus:"Accusative",
+        gloss:"What you cannot manage without.",
+        demo:"angewiesen",
+        words:["angewiesen"] },
+      { prep:"in", kasus:"Accusative",
+        gloss:"How something is divided up.",
+        demo:"unterteilt",
+        words:["unterteilt"] }
+    ],
+    contrast:{ head:"three ways to say gut",
+      a:"Er ist <b>in Mathematik</b> sehr gut.", an:"gut in + dat. — good AT a subject",
+      b:"Sei auch mal gut <b>zu dir selbst</b>!", bn:"gut zu + dat. — kind TO a person" }
+  }
+];
+
 const ALL_ITEMS = [...irregularVerbsDB, ...prepositionsDB, ...adjectivesDB];
 const MASTER_BOX = 5;
 const WEAK_CEILING = 4; // box < this counts as "needs review"
@@ -1284,6 +1493,8 @@ let progress = null;
 let appState = {
   mode: "verbs",
   list: { deck: "preps", q: "", filter: "all", open: null },
+  course: { open: "p1" },
+  cluster: null,          // { label, ids } while drilling one course cluster
   currentItem: null,
   isChecked: false,
   session: { score: 0, total: 0 }
@@ -1295,7 +1506,9 @@ let appState = {
 function poolForMode(mode){
   if(mode === "verbs") return irregularVerbsDB;
   if(mode === "preps") return prepositionsDB;
-  if(mode === "adj") return adjectivesDB;
+  if(mode === "adj") return appState.cluster
+    ? adjectivesDB.filter(it => appState.cluster.ids.indexOf(it.id) !== -1)
+    : adjectivesDB;
   // weak: combined items still under mastery ceiling
   return ALL_ITEMS.filter(it => getBoxInfo(progress, it.id).box < WEAK_CEILING);
 }
@@ -1892,7 +2105,13 @@ const el = id => document.getElementById(id);
 
 function renderBoxMeter(){
   const wrap = el("box-meter-wrap");
-  if(appState.mode === "list"){ wrap.innerHTML = ""; return; }
+  if(appState.mode === "list" || appState.mode === "kurs"){ wrap.innerHTML = ""; return; }
+  if(appState.mode === "adj" && appState.cluster){
+    wrap.innerHTML = `<div class="cluster-banner"><span class="lbl">Cluster: ${escapeHtml(appState.cluster.label)}</span><span class="num">${appState.cluster.ids.length} cards</span><button id="cluster-clear" type="button">Whole deck</button></div>`;
+  }else{
+    wrap.innerHTML = "";
+  }
+  const meterInto = html => { wrap.innerHTML += html; };
   if(appState.mode === "weak"){
     const remaining = poolForMode("weak").length;
     if(remaining === 0){
@@ -1907,13 +2126,13 @@ function renderBoxMeter(){
   const counts = [0,0,0,0,0];
   pool.forEach(it => { counts[getBoxInfo(progress, it.id).box - 1]++; });
   const max = Math.max(1, ...counts);
-  wrap.innerHTML = `<div class="box-meter">` + counts.map((c,i) => `
+  meterInto(`<div class="box-meter">` + counts.map((c,i) => `
     <div class="box-slot${i===4?" mastered":""}">
       <div class="bar-track"><div class="bar-fill" style="height:${Math.round((c/max)*100)}%"></div></div>
       <span class="count">${c}</span>
       <span class="lbl">Box ${i+1}</span>
     </div>
-  `).join("") + `</div>`;
+  `).join("") + `</div>`);
 }
 
 function updateHeaderStats(){
@@ -2284,6 +2503,125 @@ function renderEntryDetail(item, box){
     <button class="detail-drill" type="button" data-drill="${escapeHtml(item.id)}">Drill this card &rarr;</button>`;
 }
 
+
+// Every adjective must sit in exactly one group — a card missing from the course
+// would silently never be taught, so fail loudly in the console instead.
+const COURSE_KEYS = ADJ_COURSE.flatMap(p => p.groups.flatMap(g => g.words));
+(function checkCourse(){
+  const deck = adjectivesDB.map(prepKey);
+  const missing = deck.filter(k => COURSE_KEYS.indexOf(k) === -1);
+  const unknown = COURSE_KEYS.filter(k => deck.indexOf(k) === -1);
+  if(missing.length || unknown.length)
+    console.error("ADJ_COURSE mismatch", { missing, unknown });
+})();
+
+const cardByKey = key => adjectivesDB.find(it => prepKey(it) === key);
+const groupCards = g => g.words.map(cardByKey).filter(Boolean);
+const kasusClass = k => k === "Accusative" ? "akk" : k === "Nominative" ? "nom"
+                      : k === "Dative" ? "" : "mix";
+const kasusShort = k => k === "Accusative" ? "Akk." : k === "Nominative" ? "Nom."
+                      : k === "Dative" ? "Dat." : k;
+
+function demoHtml(key){
+  const pair = PREP_EXAMPLES[key];
+  if(!pair) return "";
+  return `<div class="cluster-demo"><p class="de">${pair[0][0]}</p>
+    <p class="en">${escapeHtml(pair[0][1])}</p></div>`;
+}
+
+function renderCourseView(){
+  el("panel-insights").classList.add("hidden");
+  el("box-meter-wrap").innerHTML = "";
+  const open = appState.course.open;
+  el("app-root").innerHTML = `
+    <div class="course">
+      <div class="course-intro">
+        <h2>Adjektive mit Präpositionen</h2>
+        <p>Learning ${adjectivesDB.length} adjectives from A to Z rarely sticks. Grouped by the job the
+        preposition actually does, the same list is about a dozen patterns. Take one cluster, read it,
+        then drill only that cluster — the button is on every group.</p>
+      </div>
+      ${ADJ_COURSE.map((ph, pi) => {
+        const count = ph.groups.reduce((n,g) => n + g.words.length, 0);
+        return `
+        <section class="phase${open === ph.id ? " open" : ""}" data-phase="${ph.id}">
+          <button class="phase-head" type="button">
+            <span class="phase-num">Phase ${pi+1}</span>
+            <span class="phase-title">${ph.title}</span>
+            <span class="phase-count">${count}</span>
+            <span class="phase-chev">&#9660;</span>
+          </button>
+          <div class="phase-body">
+            <p class="phase-lead">${ph.lead}</p>
+            ${ph.groups.map((g, gi) => `
+              <div class="cluster">
+                <div class="cluster-head">
+                  <span class="cluster-prep ${kasusClass(g.kasus)}">${g.prep} + ${kasusShort(g.kasus)}</span>
+                  <button class="cluster-drill" type="button" data-drill-group="${ph.id}:${gi}">Drill these ${g.words.length} &rarr;</button>
+                </div>
+                <p class="cluster-gloss">${g.gloss}</p>
+                ${g.note ? `<p class="cluster-note">${g.note}</p>` : ""}
+                <div class="cluster-words">
+                  ${groupCards(g).map(c => `<button class="word-chip" type="button" data-card="${escapeHtml(c.id)}">${escapeHtml(c.word)}</button>`).join("")}
+                </div>
+                ${demoHtml(g.demo)}
+              </div>`).join("")}
+            ${ph.contrast ? `
+              <div class="contrast">
+                <div class="contrast-head">${ph.contrast.head}</div>
+                <div class="contrast-row"><p class="de">${ph.contrast.a}</p><p class="en">${escapeHtml(ph.contrast.an)}</p></div>
+                <div class="contrast-row"><p class="de">${ph.contrast.b}</p><p class="en">${escapeHtml(ph.contrast.bn)}</p></div>
+              </div>` : ""}
+            <button class="phase-drill" type="button" data-drill-phase="${ph.id}">Drill all ${count} in this phase &rarr;</button>
+          </div>
+        </section>`;
+      }).join("")}
+    </div>`;
+
+  el("app-root").addEventListener("click", ev => {
+    const head = ev.target.closest(".phase-head");
+    if(head){
+      const sec = head.parentElement;
+      const id = sec.dataset.phase;
+      appState.course.open = sec.classList.contains("open") ? null : id;
+      document.querySelectorAll(".phase").forEach(p =>
+        p.classList.toggle("open", p.dataset.phase === appState.course.open));
+      return;
+    }
+    const grp = ev.target.closest("[data-drill-group]");
+    if(grp){
+      const [pid, gi] = grp.dataset.drillGroup.split(":");
+      const ph = ADJ_COURSE.find(p => p.id === pid);
+      const g = ph.groups[+gi];
+      practiceCluster(`${g.prep} + ${kasusShort(g.kasus)}`, groupCards(g));
+      return;
+    }
+    const phd = ev.target.closest("[data-drill-phase]");
+    if(phd){
+      const ph = ADJ_COURSE.find(p => p.id === phd.dataset.drillPhase);
+      practiceCluster(ph.title, ph.groups.flatMap(groupCards));
+      return;
+    }
+    const chip = ev.target.closest("[data-card]");
+    if(chip){
+      const item = adjectivesDB.find(it => it.id === chip.dataset.card);
+      if(item){ appState.cluster = null; drillItem(item); }
+    }
+  });
+}
+
+// Restrict the Adjektiv drill to one cluster. The pool shrinks; nothing else
+// changes, so Leitner weighting and progress keep working exactly as before.
+function practiceCluster(label, cards){
+  appState.cluster = { label, ids: cards.map(c => c.id) };
+  appState.mode = "adj";
+  appState.session = { score: 0, total: 0 };
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === "adj"));
+  loadNextQuestion();
+  updateHeaderStats();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 function drillItem(item){
   appState.mode = item.type === "verb" ? "verbs" : item.type === "adj" ? "adj" : "preps";
   appState.session = { score: 0, total: 0 };
@@ -2389,17 +2727,28 @@ function renderListView(){
 
 function switchMode(mode){
   if(appState.mode === mode) return;
+  if(mode !== "adj") appState.cluster = null;
   appState.mode = mode;
   appState.session = { score: 0, total: 0 };
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === mode));
-  if(mode === "list"){ renderListView(); } else { loadNextQuestion(); }
+  if(mode === "list"){ renderListView(); }
+  else if(mode === "kurs"){ renderCourseView(); }
+  else { loadNextQuestion(); }
   updateHeaderStats();
 }
+
+document.getElementById("box-meter-wrap").addEventListener("click", ev => {
+  if(!ev.target.closest("#cluster-clear")) return;
+  appState.cluster = null;
+  appState.session = { score: 0, total: 0 };
+  loadNextQuestion();
+  updateHeaderStats();
+});
 
 // keyboard
 window.addEventListener("keydown", e => {
   if(e.key === "Enter"){
-    if(appState.mode === "list") return;
+    if(appState.mode === "list" || appState.mode === "kurs") return;
     e.preventDefault();
     handleAction();
   }
@@ -2407,7 +2756,11 @@ window.addEventListener("keydown", e => {
 
 document.getElementById("tab-verbs").addEventListener("click", () => switchMode("verbs"));
 document.getElementById("tab-preps").addEventListener("click", () => switchMode("preps"));
-document.getElementById("tab-adj").addEventListener("click", () => switchMode("adj"));
+document.getElementById("tab-adj").addEventListener("click", () => {
+  appState.cluster = null;
+  if(appState.mode === "adj"){ loadNextQuestion(); renderBoxMeter(); } else { switchMode("adj"); }
+});
+document.getElementById("tab-kurs").addEventListener("click", () => switchMode("kurs"));
 document.getElementById("tab-weak").addEventListener("click", () => switchMode("weak"));
 document.getElementById("tab-list").addEventListener("click", () => switchMode("list"));
 
@@ -2417,7 +2770,9 @@ document.getElementById("btn-reset").addEventListener("click", () => {
   progress = defaultProgress();
   saveProgress(progress);
   appState.session = { score: 0, total: 0 };
-  if(appState.mode === "list"){ renderListView(); } else { loadNextQuestion(); }
+  if(appState.mode === "list"){ renderListView(); }
+  else if(appState.mode === "kurs"){ renderCourseView(); }
+  else { loadNextQuestion(); }
   updateHeaderStats();
 });
 
