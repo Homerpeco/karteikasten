@@ -307,6 +307,7 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
 .entry-prep{font-family:'Space Mono',monospace;font-size:0.76rem;font-weight:700;padding:2px 8px;border-radius:6px;}
 .prep-akk{background:var(--amber-bg);border:1px solid var(--amber-border);color:var(--amber);}
 .prep-dat{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue-dark);}
+.prep-nom{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);}
 .entry-kind{font-size:0.56rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-soft);
   border:1px solid var(--border);border-radius:999px;padding:2px 7px;}
 .entry-box{margin-left:auto;font-family:'Space Mono',monospace;font-size:0.6rem;font-weight:700;color:var(--ink-soft);
@@ -681,7 +682,158 @@ const prepositionsDB = [
   { word: "warten", type2: "Verb", prep: "auf", case: "Accusative", trans: "to wait for" },
   { word: "zufrieden", type2: "Adjektiv", prep: "mit", case: "Dative", trans: "content / satisfied with" },
   { word: "zweifeln", type2: "Verb", prep: "an", case: "Dative", trans: "to cast doubt on" }
-].map(p => ({ ...p, type: "prep", id: "prep:" + p.word }));
+,
+  // --- C-Grammatik, Anhang 7.4 "Verben mit präpositionalem Kasus" ---
+  { word: "abbringen", type2: "Verb", prep: "von", case: "Dative", trans: "to talk out of / dissuade from" },
+  { word: "sich abgeben", type2: "Verb", prep: "mit", case: "Dative", trans: "to bother with / associate with" },
+  { word: "sich abhärten", type2: "Verb", prep: "gegen", case: "Accusative", trans: "to toughen oneself up against" },
+  { word: "absehen", type2: "Verb", prep: "von", case: "Dative", trans: "to refrain from / waive" },
+  { word: "ändern", type2: "Verb", prep: "an", case: "Dative", trans: "to change about (something existing)" },
+  { word: "sich ängstigen", type2: "Verb", prep: "um", case: "Accusative", trans: "to fear for (someone else)", key: "sich ängstigen:um" },
+  { word: "anregen", type2: "Verb", prep: "zu", case: "Dative", trans: "to prompt / encourage to" },
+  { word: "anrufen", type2: "Verb", prep: "bei", case: "Dative", trans: "to phone (an office or company)" },
+  { word: "ansehen", type2: "Verb", prep: "als", case: "Accusative", trans: "to regard as" },
+  { word: "arbeiten", type2: "Verb", prep: "bei", case: "Dative", trans: "to work for (an employer)", key: "arbeiten:bei" },
+  { word: "arbeiten", type2: "Verb", prep: "als", case: "Nominative", trans: "to work as (a job title)", key: "arbeiten:als" },
+  { word: "auffordern", type2: "Verb", prep: "zu", case: "Dative", trans: "to call on / urge to" },
+  { word: "ausdrücken", type2: "Verb", prep: "in", case: "Dative", trans: "to express in (a medium)", key: "ausdrücken:in" },
+  { word: "ausdrücken", type2: "Verb", prep: "mit", case: "Dative", trans: "to express with (a means)", key: "ausdrücken:mit" },
+  { word: "sich auseinandersetzen", type2: "Verb", prep: "mit", case: "Dative", trans: "to grapple with / engage with" },
+  { word: "ausgeben", type2: "Verb", prep: "für", case: "Accusative", trans: "to spend on" },
+  { word: "ausgehen", type2: "Verb", prep: "von", case: "Dative", trans: "to assume / start from" },
+  { word: "aussehen", type2: "Verb", prep: "nach", case: "Dative", trans: "to look like" },
+  { word: "sich aussprechen", type2: "Verb", prep: "gegen", case: "Accusative", trans: "to come out against", key: "sich aussprechen:gegen" },
+  { word: "sich aussprechen", type2: "Verb", prep: "für", case: "Accusative", trans: "to come out in favour of", key: "sich aussprechen:für" },
+  { word: "sich aussprechen", type2: "Verb", prep: "mit", case: "Dative", trans: "to clear the air with", key: "sich aussprechen:mit" },
+  { word: "basieren", type2: "Verb", prep: "auf", case: "Dative", trans: "to be based on" },
+  { word: "sich bedanken", type2: "Verb", prep: "bei", case: "Dative", trans: "to thank (a person)", key: "sich bedanken:bei" },
+  { word: "sich beeilen", type2: "Verb", prep: "mit", case: "Dative", trans: "to hurry up with" },
+  { word: "befördern", type2: "Verb", prep: "zu", case: "Dative", trans: "to promote to (a position)" },
+  { word: "sich befreien", type2: "Verb", prep: "von", case: "Dative", trans: "to free oneself from (something abstract)", key: "sich befreien:von" },
+  { word: "sich befreien", type2: "Verb", prep: "aus", case: "Dative", trans: "to free oneself out of (a physical situation)", key: "sich befreien:aus" },
+  { word: "sich beklagen", type2: "Verb", prep: "bei", case: "Dative", trans: "to complain to (a person)", key: "sich beklagen:bei" },
+  { word: "sich bemühen", type2: "Verb", prep: "um", case: "Accusative", trans: "to strive for" },
+  { word: "berichten", type2: "Verb", prep: "von", case: "Dative", trans: "to tell of (a first-hand account)", key: "berichten:von" },
+  { word: "sich beschränken", type2: "Verb", prep: "auf", case: "Accusative", trans: "to limit oneself to" },
+  { word: "beschreiben", type2: "Verb", prep: "als", case: "Accusative", trans: "to describe as" },
+  { word: "sich beschweren", type2: "Verb", prep: "bei", case: "Dative", trans: "to take a complaint to (a person or office)", key: "sich beschweren:bei" },
+  { word: "bestehen", type2: "Verb", prep: "auf", case: "Dative", trans: "to insist on", key: "bestehen:auf" },
+  { word: "bestehen", type2: "Verb", prep: "in", case: "Dative", trans: "to consist in / lie in", key: "bestehen:in" },
+  { word: "bezeichnen", type2: "Verb", prep: "als", case: "Accusative", trans: "to call / label as" },
+  { word: "sich beziehen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to refer to" },
+  { word: "bringen", type2: "Verb", prep: "zu", case: "Dative", trans: "to drive someone to (a reaction)" },
+  { word: "dienen", type2: "Verb", prep: "zu", case: "Dative", trans: "to serve for (a purpose)", key: "dienen:zu" },
+  { word: "dienen", type2: "Verb", prep: "als", case: "Nominative", trans: "to serve as", key: "dienen:als" },
+  { word: "diskutieren", type2: "Verb", prep: "mit", case: "Dative", trans: "to discuss with (a person)", key: "diskutieren:mit" },
+  { word: "debattieren", type2: "Verb", prep: "über", case: "Accusative", trans: "to debate (a subject)" },
+  { word: "sich eignen", type2: "Verb", prep: "für", case: "Accusative", trans: "to be suitable for", key: "sich eignen:für" },
+  { word: "sich eignen", type2: "Verb", prep: "zu", case: "Dative", trans: "to be cut out for", key: "sich eignen:zu" },
+  { word: "sich einigen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to agree on (a result)", key: "sich einigen:auf" },
+  { word: "sich einigen", type2: "Verb", prep: "mit", case: "Dative", trans: "to reach agreement with (a person)", key: "sich einigen:mit" },
+  { word: "einschwören", type2: "Verb", prep: "auf", case: "Accusative", trans: "to rally someone behind" },
+  { word: "sich entschließen", type2: "Verb", prep: "zu", case: "Dative", trans: "to resolve to" },
+  { word: "sich entschuldigen", type2: "Verb", prep: "bei", case: "Dative", trans: "to apologise to (a person)", key: "sich entschuldigen:bei" },
+  { word: "entstehen", type2: "Verb", prep: "aus", case: "Dative", trans: "to arise out of" },
+  { word: "sich erholen", type2: "Verb", prep: "von", case: "Dative", trans: "to recover from" },
+  { word: "erklären", type2: "Verb", prep: "mit", case: "Dative", trans: "to explain by (a cause)" },
+  { word: "sich erkundigen", type2: "Verb", prep: "bei", case: "Dative", trans: "to enquire at (a place or person)", key: "sich erkundigen:bei" },
+  { word: "sich erkundigen", type2: "Verb", prep: "nach", case: "Dative", trans: "to enquire about", key: "sich erkundigen:nach" },
+  { word: "sich ernähren", type2: "Verb", prep: "von", case: "Dative", trans: "to live on (a diet)" },
+  { word: "ernennen", type2: "Verb", prep: "zu", case: "Dative", trans: "to appoint as" },
+  { word: "erschrecken", type2: "Verb", prep: "vor", case: "Dative", trans: "to be startled by" },
+  { word: "erwarten", type2: "Verb", prep: "von", case: "Dative", trans: "to expect of (a person)" },
+  { word: "erziehen", type2: "Verb", prep: "zu", case: "Dative", trans: "to bring up to be" },
+  { word: "fehlen", type2: "Verb", prep: "an", case: "Dative", trans: "to be lacking in" },
+  { word: "fliehen", type2: "Verb", prep: "vor", case: "Dative", trans: "to flee from" },
+  { word: "fordern", type2: "Verb", prep: "von", case: "Dative", trans: "to demand of" },
+  { word: "sich fügen", type2: "Verb", prep: "in", case: "Accusative", trans: "to resign oneself to" },
+  { word: "führen", type2: "Verb", prep: "zu", case: "Dative", trans: "to lead to" },
+  { word: "gehen", type2: "Verb", prep: "um", case: "Accusative", trans: "to be about (es geht um)" },
+  { word: "gelten", type2: "Verb", prep: "als", case: "Nominative", trans: "to be regarded as", key: "gelten:als" },
+  { word: "gelten", type2: "Verb", prep: "für", case: "Accusative", trans: "to apply to", key: "gelten:für" },
+  { word: "geraten", type2: "Verb", prep: "in", case: "Accusative", trans: "to get into (a difficult state)" },
+  { word: "gliedern", type2: "Verb", prep: "in", case: "Accusative", trans: "to divide into" },
+  { word: "halten", type2: "Verb", prep: "von", case: "Dative", trans: "to think of (an opinion)" },
+  { word: "handeln", type2: "Verb", prep: "von", case: "Dative", trans: "to be about (a book or film)" },
+  { word: "sich handeln", type2: "Verb", prep: "um", case: "Accusative", trans: "to be a case of (es handelt sich um)" },
+  { word: "hören", type2: "Verb", prep: "von", case: "Dative", trans: "to hear about / hear from", key: "hören:von" },
+  { word: "hören", type2: "Verb", prep: "auf", case: "Accusative", trans: "to listen to (take advice)", key: "hören:auf" },
+  { word: "informieren", type2: "Verb", prep: "über", case: "Accusative", trans: "to inform about", key: "informieren:über" },
+  { word: "informieren", type2: "Verb", prep: "bei", case: "Dative", trans: "to get information from (a source)", key: "informieren:bei" },
+  { word: "sich irren", type2: "Verb", prep: "in", case: "Dative", trans: "to be mistaken about" },
+  { word: "kämpfen", type2: "Verb", prep: "für", case: "Accusative", trans: "to fight for", key: "kämpfen:für" },
+  { word: "kämpfen", type2: "Verb", prep: "gegen", case: "Accusative", trans: "to fight against", key: "kämpfen:gegen" },
+  { word: "klagen", type2: "Verb", prep: "über", case: "Accusative", trans: "to complain of (a symptom or nuisance)" },
+  { word: "kommen", type2: "Verb", prep: "zu", case: "Dative", trans: "to arrive at (a result or event)" },
+  { word: "lachen", type2: "Verb", prep: "über", case: "Accusative", trans: "to laugh at" },
+  { word: "leben", type2: "Verb", prep: "von", case: "Dative", trans: "to live on / live off" },
+  { word: "leiden", type2: "Verb", prep: "unter", case: "Dative", trans: "to suffer under (conditions)", key: "leiden:unter" },
+  { word: "liegen", type2: "Verb", prep: "an", case: "Dative", trans: "to be due to" },
+  { word: "machen", type2: "Verb", prep: "zu", case: "Dative", trans: "to turn into" },
+  { word: "mangeln", type2: "Verb", prep: "an", case: "Dative", trans: "to be short of (es mangelt an)" },
+  { word: "neigen", type2: "Verb", prep: "zu", case: "Dative", trans: "to tend towards" },
+  { word: "sich orientieren", type2: "Verb", prep: "an", case: "Dative", trans: "to take one's lead from" },
+  { word: "sich rächen", type2: "Verb", prep: "an", case: "Dative", trans: "to take revenge on (a person)", key: "sich rächen:an" },
+  { word: "sich rächen", type2: "Verb", prep: "für", case: "Accusative", trans: "to take revenge for (a deed)", key: "sich rächen:für" },
+  { word: "sich ranken", type2: "Verb", prep: "um", case: "Accusative", trans: "to wind around / grow up around" },
+  { word: "raten", type2: "Verb", prep: "zu", case: "Dative", trans: "to advise in favour of" },
+  { word: "rechnen", type2: "Verb", prep: "mit", case: "Dative", trans: "to reckon with / expect" },
+  { word: "reden", type2: "Verb", prep: "mit", case: "Dative", trans: "to talk to (a person)", key: "reden:mit" },
+  { word: "sich richten", type2: "Verb", prep: "an", case: "Accusative", trans: "to be addressed to" },
+  { word: "riechen", type2: "Verb", prep: "nach", case: "Dative", trans: "to smell of" },
+  { word: "schimpfen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to rail at / curse" },
+  { word: "schreiben", type2: "Verb", prep: "an", case: "Dative", trans: "to be at work on (a text)" },
+  { word: "sich schützen", type2: "Verb", prep: "vor", case: "Dative", trans: "to protect oneself from" },
+  { word: "sehen", type2: "Verb", prep: "als", case: "Accusative", trans: "to see as" },
+  { word: "sich sehnen", type2: "Verb", prep: "nach", case: "Dative", trans: "to long for" },
+  { word: "senken", type2: "Verb", prep: "um", case: "Accusative", trans: "to reduce BY (an amount)", key: "senken:um" },
+  { word: "senken", type2: "Verb", prep: "auf", case: "Accusative", trans: "to reduce TO (a level)", key: "senken:auf" },
+  { word: "sinken", type2: "Verb", prep: "um", case: "Accusative", trans: "to fall BY (an amount)", key: "sinken:um" },
+  { word: "sinken", type2: "Verb", prep: "auf", case: "Accusative", trans: "to fall TO (a level)", key: "sinken:auf" },
+  { word: "sprechen", type2: "Verb", prep: "mit", case: "Dative", trans: "to speak to (a person)", key: "sprechen:mit" },
+  { word: "sprechen", type2: "Verb", prep: "von", case: "Dative", trans: "to speak of", key: "sprechen:von" },
+  { word: "stammen", type2: "Verb", prep: "aus", case: "Dative", trans: "to come from / date from" },
+  { word: "staunen", type2: "Verb", prep: "über", case: "Accusative", trans: "to marvel at" },
+  { word: "steigen", type2: "Verb", prep: "um", case: "Accusative", trans: "to rise BY (an amount)", key: "steigen:um" },
+  { word: "steigen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to rise TO (a level)", key: "steigen:auf" },
+  { word: "stimmen", type2: "Verb", prep: "für", case: "Accusative", trans: "to vote for", key: "stimmen:für" },
+  { word: "stimmen", type2: "Verb", prep: "gegen", case: "Accusative", trans: "to vote against", key: "stimmen:gegen" },
+  { word: "sich streiten", type2: "Verb", prep: "mit", case: "Dative", trans: "to quarrel with (a person)", key: "sich streiten:mit" },
+  { word: "sich streiten", type2: "Verb", prep: "über", case: "Accusative", trans: "to argue about (a subject)", key: "sich streiten:über" },
+  { word: "sich täuschen", type2: "Verb", prep: "in", case: "Dative", trans: "to misjudge / be mistaken about" },
+  { word: "telefonieren", type2: "Verb", prep: "mit", case: "Dative", trans: "to be on the phone with" },
+  { word: "überreden", type2: "Verb", prep: "zu", case: "Dative", trans: "to talk someone into" },
+  { word: "übersetzen", type2: "Verb", prep: "aus", case: "Dative", trans: "to translate FROM", key: "übersetzen:aus" },
+  { word: "übersetzen", type2: "Verb", prep: "in", case: "Accusative", trans: "to translate INTO", key: "übersetzen:in" },
+  { word: "überzeugen", type2: "Verb", prep: "von", case: "Dative", trans: "to convince of" },
+  { word: "sich umstellen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to switch over to" },
+  { word: "sich einstellen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to brace oneself for" },
+  { word: "sich unterhalten", type2: "Verb", prep: "mit", case: "Dative", trans: "to chat with (a person)", key: "sich unterhalten:mit" },
+  { word: "sich unterscheiden", type2: "Verb", prep: "von", case: "Dative", trans: "to differ from", key: "sich unterscheiden:von" },
+  { word: "sich unterscheiden", type2: "Verb", prep: "in", case: "Dative", trans: "to differ in (a respect)", key: "sich unterscheiden:in" },
+  { word: "sich unterscheiden", type2: "Verb", prep: "durch", case: "Accusative", trans: "to be distinguished by (a feature)", key: "sich unterscheiden:durch" },
+  { word: "verbergen", type2: "Verb", prep: "vor", case: "Dative", trans: "to hide from" },
+  { word: "verheimlichen", type2: "Verb", prep: "vor", case: "Dative", trans: "to keep secret from" },
+  { word: "verbinden", type2: "Verb", prep: "mit", case: "Dative", trans: "to associate with / connect to" },
+  { word: "verfügen", type2: "Verb", prep: "über", case: "Accusative", trans: "to have at one's disposal" },
+  { word: "verklagen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to sue for" },
+  { word: "verleiten", type2: "Verb", prep: "zu", case: "Dative", trans: "to tempt into" },
+  { word: "verstehen", type2: "Verb", prep: "unter", case: "Dative", trans: "to understand by (a term)" },
+  { word: "verstoßen", type2: "Verb", prep: "gegen", case: "Accusative", trans: "to breach / violate" },
+  { word: "sich vertiefen", type2: "Verb", prep: "in", case: "Accusative", trans: "to immerse oneself in" },
+  { word: "vertrauen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to trust in" },
+  { word: "verzichten", type2: "Verb", prep: "auf", case: "Accusative", trans: "to do without / waive" },
+  { word: "sich vorbereiten", type2: "Verb", prep: "auf", case: "Accusative", trans: "to prepare for" },
+  { word: "warnen", type2: "Verb", prep: "vor", case: "Dative", trans: "to warn of" },
+  { word: "sich wehren", type2: "Verb", prep: "gegen", case: "Accusative", trans: "to defend oneself against" },
+  { word: "werben", type2: "Verb", prep: "für", case: "Accusative", trans: "to promote / campaign for" },
+  { word: "wissen", type2: "Verb", prep: "von", case: "Dative", trans: "to know about (to have heard of)", key: "wissen:von" },
+  { word: "wissen", type2: "Verb", prep: "über", case: "Accusative", trans: "to know about (a subject)", key: "wissen:über" },
+  { word: "sich wundern", type2: "Verb", prep: "über", case: "Accusative", trans: "to be surprised at" },
+  { word: "zählen", type2: "Verb", prep: "zu", case: "Dative", trans: "to be counted among" },
+  { word: "zurückführen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to put down to" },
+  { word: "zwingen", type2: "Verb", prep: "zu", case: "Dative", trans: "to force into" },
+].map(p => ({ ...p, type: "prep", id: "prep:" + (p.key || p.word) }));
 
 const ALL_ITEMS = [...irregularVerbsDB, ...prepositionsDB];
 const MASTER_BOX = 5;
@@ -1069,6 +1221,12 @@ function weightedPick(pool){
   return pool[pool.length-1];
 }
 
+const CASE_CLS  = { Accusative:"prep-akk", Dative:"prep-dat", Nominative:"prep-nom" };
+const CASE_ABBR = { Accusative:"Akk.", Dative:"Dat.", Nominative:"Nom." };
+// A verb that governs several prepositions carries a key ("sprechen:mit"); everything
+// looked up per card — examples, traps — hangs off that, not off the display word.
+const prepKey = item => item.key || item.word;
+
 // =========================================================
 // EXAMPLES — hand-written sentences, one pair per entry
 // =========================================================
@@ -1151,7 +1309,156 @@ const PREP_EXAMPLES = {
 "verantwortlich":[["Wer ist <b>für den Fehler</b> verantwortlich?","Who's responsible for the mistake?"],["Sie ist <b>für das gesamte Team</b> verantwortlich.","She's responsible for the whole team."]],
 "warten":[["Wir warten schon eine Stunde <b>auf den Bus</b>.","We've been waiting for the bus for an hour."],["<b>Worauf</b> wartest du noch?","What are you still waiting for?"]],
 "zufrieden":[["Sind Sie <b>mit dem Ergebnis</b> zufrieden?","Are you satisfied with the result?"],["Er ist <b>mit seinem neuen Rad</b> sehr zufrieden.","He's very happy with his new bike."]],
-"zweifeln":[["Niemand zweifelt <b>an seiner Ehrlichkeit</b>.","Nobody doubts his honesty."],["Sie begann <b>an sich selbst</b> zu zweifeln.","She began to doubt herself."]]
+"zweifeln":[["Niemand zweifelt <b>an seiner Ehrlichkeit</b>.","Nobody doubts his honesty."],["Sie begann <b>an sich selbst</b> zu zweifeln.","She began to doubt herself."]],
+"abbringen":[["Niemand konnte ihn <b>von diesem Plan</b> abbringen.","Nobody could talk him out of this plan."],["Lass dich nicht <b>von deinem Ziel</b> abbringen!","Don't let anyone steer you away from your goal."]],
+"sich abgeben":[["<b>Mit solchen Leuten</b> gibt er sich nicht ab.","He doesn't associate with people like that."],["Ich gebe mich nicht <b>mit jeder Kleinigkeit</b> ab.","I don't bother with every little thing."]],
+"sich abhärten":[["Man kann sich <b>gegen Erkältungen</b> abhärten.","You can build up your resistance to colds."],["Sie hat sich <b>gegen jede Kritik</b> abgehärtet.","She has toughened herself against any criticism."]],
+"absehen":[["In diesem Fall sehen wir <b>von einer Strafe</b> ab.","In this case we are waiving a penalty."],["Das Gericht sah <b>von einer Haftstrafe</b> ab.","The court refrained from imposing a prison sentence."]],
+"ändern":[["<b>An diesem Text</b> musst du noch einiges ändern.","There's still a fair bit you need to change about this text."],["Sie hat nichts <b>an ihrer Haltung</b> geändert.","She changed nothing about her position."]],
+"sich ängstigen:um":[["Die Mutter ängstigt sich <b>um ihren Sohn</b>.","The mother fears for her son."],["Er ängstigt sich <b>um seinen Arbeitsplatz</b>.","He's afraid for his job."]],
+"anregen":[["Das Ergebnis sollte uns <b>zum Nachdenken</b> anregen.","The result ought to give us food for thought."],["Der Film regt <b>zu einer Diskussion</b> an.","The film invites discussion."]],
+"anrufen":[["Ruf bitte <b>beim Kundendienst</b> an.","Please call customer service."],["Ich habe gestern <b>bei der Praxis</b> angerufen.","I rang the doctor's surgery yesterday."]],
+"ansehen":[["Ich sehe ihn <b>als meinen Freund</b> an.","I regard him as my friend."],["Sie sieht das <b>als großen Erfolg</b> an.","She sees that as a great success."]],
+"arbeiten:bei":[["Sie arbeitet <b>bei einer Versicherung</b>.","She works for an insurance company."],["Wie lange arbeitest du schon <b>bei dieser Firma</b>?","How long have you been with this company?"]],
+"arbeiten:als":[["Er arbeitet <b>als Projektmanager</b>.","He works as a project manager."],["Sie hat lange <b>als Übersetzerin</b> gearbeitet.","She worked as a translator for a long time."]],
+"auffordern":[["Die Leitung forderte alle <b>zur Einhaltung der Regeln</b> auf.","Management called on everyone to observe the rules."],["Der Richter forderte ihn <b>zur Ruhe</b> auf.","The judge told him to be quiet."]],
+"ausdrücken:in":[["Die Entwicklung lässt sich am besten <b>in Zahlen</b> ausdrücken.","The trend is best expressed in figures."],["Sie drückte ihren Dank <b>in einem kurzen Brief</b> aus.","She expressed her thanks in a short letter."]],
+"ausdrücken:mit":[["Das kann man <b>mit Worten</b> nicht ausdrücken.","That can't be put into words."],["Er drückte alles <b>mit einer einzigen Geste</b> aus.","He said it all with a single gesture."]],
+"sich auseinandersetzen":[["Man muss sich <b>mit seinen Ängsten</b> auseinandersetzen.","You have to confront your fears."],["Die Arbeit setzt sich <b>mit dem Klimawandel</b> auseinander.","The paper engages with climate change."]],
+"ausgeben":[["Er gibt viel Geld <b>für Bücher</b> aus.","He spends a lot of money on books."],["Wie viel gebt ihr <b>für die Miete</b> aus?","How much do you spend on rent?"]],
+"ausgehen":[["Wir gehen <b>von einem Missverständnis</b> aus.","We assume it's a misunderstanding."],["Die Theorie geht <b>von einem anderen Ansatz</b> aus.","The theory starts from a different premise."]],
+"aussehen":[["Das sieht <b>nach einem Unfall</b> aus.","That looks like an accident."],["Es sieht ganz <b>nach Regen</b> aus.","It looks very much like rain."]],
+"sich aussprechen:gegen":[["Die Mehrheit sprach sich <b>gegen den Vorschlag</b> aus.","The majority came out against the proposal."],["Sie hat sich klar <b>gegen diesen Weg</b> ausgesprochen.","She came out clearly against this course of action."]],
+"sich aussprechen:für":[["Die Regierung sprach sich <b>für strengere Regeln</b> aus.","The government came out in favour of stricter rules."],["Er hat sich <b>für den zweiten Entwurf</b> ausgesprochen.","He came out in favour of the second draft."]],
+"sich aussprechen:mit":[["Hast du dich endlich <b>mit deinem Kollegen</b> ausgesprochen?","Did you finally clear the air with your colleague?"],["Die beiden haben sich <b>mit ihrer Mutter</b> ausgesprochen.","The two of them talked things through with their mother."]],
+"basieren":[["Der Bericht basiert <b>auf Tatsachen</b>.","The report is based on facts."],["Das Modell basiert <b>auf einer einfachen Annahme</b>.","The model rests on a simple assumption."]],
+"sich bedanken:bei":[["Ich möchte mich <b>bei allen Beteiligten</b> bedanken.","I'd like to thank everyone involved."],["Hast du dich schon <b>bei deiner Tante</b> bedankt?","Have you thanked your aunt yet?"]],
+"sich beeilen":[["Du musst dich <b>mit dem Bericht</b> beeilen.","You need to hurry up with the report."],["Beeil dich <b>mit dem Frühstück</b>!","Get a move on with your breakfast."]],
+"befördern":[["Er wurde <b>zum Abteilungsleiter</b> befördert.","He was promoted to head of department."],["Man hat sie <b>zur Direktorin</b> befördert.","They promoted her to director."]],
+"sich befreien:von":[["Wir müssen uns <b>von diesen Vorurteilen</b> befreien.","We have to free ourselves from these prejudices."],["Sie hat sich <b>von allen Verpflichtungen</b> befreit.","She freed herself from every obligation."]],
+"sich befreien:aus":[["Er konnte sich <b>aus seiner misslichen Lage</b> selbst befreien.","He got himself out of his predicament on his own."],["Der Fuchs befreite sich <b>aus der Falle</b>.","The fox freed itself from the trap."]],
+"sich beklagen:bei":[["Er hat sich <b>bei der Leitung</b> beklagt.","He complained to the management."],["Beklag dich <b>bei ihm</b>, nicht bei mir!","Complain to him, not to me."]],
+"sich bemühen":[["Wir bemühen uns <b>um eine schnelle Lösung</b>.","We're working hard to find a quick solution."],["Sie bemüht sich seit Wochen <b>um einen Termin</b>.","She's been trying for weeks to get an appointment."]],
+"berichten:von":[["Er berichtete <b>von seinen Erlebnissen</b>.","He told us about his experiences."],["Die Zeugen berichteten <b>von einem lauten Knall</b>.","The witnesses spoke of a loud bang."]],
+"sich beschränken":[["Ich beschränke mich <b>auf das Wichtigste</b>.","I'll limit myself to the essentials."],["Der Schaden beschränkt sich <b>auf einen Raum</b>.","The damage is confined to one room."]],
+"beschreiben":[["Die Zeugen beschrieben ihn <b>als ruhigen Mann</b>.","The witnesses described him as a quiet man."],["Sie beschrieb den Abend <b>als vollen Erfolg</b>.","She described the evening as a complete success."]],
+"sich beschweren:bei":[["Beschweren Sie sich bitte <b>bei der Geschäftsleitung</b>.","Please take your complaint to the management."],["Der Gast beschwerte sich <b>beim Kellner</b>.","The guest complained to the waiter."]],
+"bestehen:auf":[["Sie besteht <b>auf einer schriftlichen Antwort</b>.","She insists on a written reply."],["Wir bestehen <b>auf dem vereinbarten Preis</b>.","We insist on the price we agreed."]],
+"bestehen:in":[["Das Problem besteht <b>in der Finanzierung</b>.","The problem lies in the funding."],["Ihre Aufgabe besteht <b>in der Betreuung der Gäste</b>.","Her job consists in looking after the guests."]],
+"bezeichnen":[["Der Minister bezeichnete den Plan <b>als groben Fehler</b>.","The minister called the plan a serious mistake."],["Viele bezeichnen sie <b>als die beste Trainerin</b> des Landes.","Many call her the best coach in the country."]],
+"sich beziehen":[["Ich beziehe mich <b>auf Ihr Schreiben</b> vom 3. Mai.","I refer to your letter of 3 May."],["Die Zahl bezieht sich <b>auf das ganze Jahr</b>.","The figure refers to the whole year."]],
+"bringen":[["Du bringst mich noch <b>zur Verzweiflung</b>!","You'll drive me to despair."],["Der Film hat viele <b>zum Weinen</b> gebracht.","The film made a lot of people cry."]],
+"dienen:zu":[["Die Hinweise dienen <b>zur besseren Orientierung</b>.","The notes are there to help you find your way."],["Das Geld dient <b>zur Finanzierung des Projekts</b>.","The money serves to fund the project."]],
+"dienen:als":[["Der Keller dient <b>als Lager</b>.","The cellar serves as a storeroom."],["Das Zitat kann <b>als Beleg</b> dienen.","The quotation can serve as evidence."]],
+"diskutieren:mit":[["Ich habe lange <b>mit meinem Bruder</b> diskutiert.","I had a long discussion with my brother."],["Diskutier nicht <b>mit dem Schiedsrichter</b>!","Don't argue with the referee."]],
+"debattieren":[["Das Parlament debattiert <b>über den Haushalt</b>.","Parliament is debating the budget."],["Wir haben stundenlang <b>über die Reform</b> debattiert.","We debated the reform for hours."]],
+"sich eignen:für":[["Der Raum eignet sich gut <b>für kleine Gruppen</b>.","The room is well suited to small groups."],["Dieses Werkzeug eignet sich nicht <b>für harte Böden</b>.","This tool isn't suitable for hard ground."]],
+"sich eignen:zu":[["Der Stoff eignet sich <b>zur Herstellung von Verpackungen</b>.","The material is suited to making packaging."],["Er eignet sich nicht <b>zum Lehrer</b>.","He isn't cut out to be a teacher."]],
+"sich einigen:auf":[["Die Parteien haben sich <b>auf einen Kompromiss</b> geeinigt.","The parties agreed on a compromise."],["Können wir uns <b>auf einen Termin</b> einigen?","Can we agree on a date?"]],
+"sich einigen:mit":[["Er hat sich <b>mit dem Vermieter</b> geeinigt.","He came to an agreement with the landlord."],["Einigt euch endlich <b>mit euren Nachbarn</b>!","Do come to an agreement with your neighbours."]],
+"einschwören":[["Der Trainer schwor die Mannschaft <b>auf das Spiel</b> ein.","The coach got the team focused on the match."],["Die Firma schwört alle <b>auf ein gemeinsames Ziel</b> ein.","The company rallies everyone behind a shared goal."]],
+"sich entschließen":[["Wir haben uns <b>zu einem Neuanfang</b> entschlossen.","We resolved to make a fresh start."],["Sie entschloss sich <b>zu einem Umzug</b>.","She made up her mind to move."]],
+"sich entschuldigen:bei":[["Ich möchte mich <b>bei dir</b> entschuldigen.","I want to apologise to you."],["Er hat sich <b>bei seiner Schwester</b> entschuldigt.","He apologised to his sister."]],
+"entstehen":[["<b>Aus dieser Idee</b> ist ein ganzes Unternehmen entstanden.","A whole company grew out of this idea."],["Planeten entstehen <b>aus Staub und Gas</b>.","Planets form out of dust and gas."]],
+"sich erholen":[["Er erholt sich langsam <b>von der Grippe</b>.","He's slowly recovering from the flu."],["Wie erholst du dich <b>vom Stress</b>?","How do you recover from stress?"]],
+"erklären":[["Diesen Anstieg kann man <b>mit dem schlechten Wetter</b> erklären.","This increase can be explained by the bad weather."],["Sein Verhalten lässt sich <b>mit der Aufregung</b> erklären.","His behaviour can be put down to the excitement."]],
+"sich erkundigen:bei":[["Erkundige dich <b>bei der Auskunft</b>.","Ask at the information desk."],["Ich habe mich <b>bei der Schule</b> erkundigt.","I made enquiries at the school."]],
+"sich erkundigen:nach":[["Er erkundigte sich <b>nach dem Preis</b>.","He enquired about the price."],["Sie hat sich <b>nach deiner Mutter</b> erkundigt.","She asked after your mother."]],
+"sich ernähren":[["Das Tier ernährt sich <b>von Insekten</b>.","The animal lives on insects."],["Er ernährt sich fast nur <b>von Gemüse</b>.","He lives almost entirely on vegetables."]],
+"ernennen":[["Man hat ihn <b>zum Vorsitzenden</b> ernannt.","He was appointed chairman."],["Sie wurde <b>zur Botschafterin</b> ernannt.","She was appointed ambassador."]],
+"erschrecken":[["Ich bin <b>vor dem lauten Knall</b> erschrocken.","I was startled by the loud bang."],["Erschrick nicht <b>vor dem Hund</b>!","Don't be frightened by the dog."]],
+"erwarten":[["Was erwartest du <b>von mir</b>?","What do you expect from me?"],["Wir erwarten <b>von den Teilnehmern</b> Pünktlichkeit.","We expect punctuality from the participants."]],
+"erziehen":[["Sie erziehen ihre Kinder <b>zur Selbstständigkeit</b>.","They're bringing their children up to be independent."],["Man kann Hunde <b>zum Gehorsam</b> erziehen.","Dogs can be trained to obey."]],
+"fehlen":[["Es fehlt <b>an qualifiziertem Personal</b>.","There's a shortage of qualified staff."],["Im Krankenhaus fehlt es <b>an Betten</b>.","The hospital is short of beds."]],
+"fliehen":[["Viele fliehen <b>vor dem Krieg</b>.","Many are fleeing the war."],["Die Tiere flohen <b>vor dem Feuer</b>.","The animals fled from the fire."]],
+"fordern":[["Die Gewerkschaft fordert <b>von den Arbeitgebern</b> mehr Geld.","The union is demanding more money from the employers."],["Was forderst du <b>von deinem Team</b>?","What do you demand of your team?"]],
+"sich fügen":[["Sie fügte sich <b>in ihr Schicksal</b>.","She resigned herself to her fate."],["Er fügt sich nur schwer <b>in eine neue Rolle</b>.","He finds it hard to settle into a new role."]],
+"führen":[["Der Fehler führte <b>zu einem großen Schaden</b>.","The mistake led to serious damage."],["Die Diskussion führte <b>zu keinem Ergebnis</b>.","The discussion led to no result at all."]],
+"gehen":[["In diesem Buch geht es <b>um die Nachkriegszeit</b>.","This book is about the post-war years."],["<b>Worum</b> geht es hier eigentlich?","What is this actually about?"]],
+"gelten:als":[["Er gilt <b>als bester Kenner</b> der Materie.","He is regarded as the leading authority on the subject."],["Sie gilt <b>als große Erzählerin</b>.","She is regarded as a great storyteller."]],
+"gelten:für":[["Die neue Regel gilt <b>für alle Mitarbeitenden</b>.","The new rule applies to all staff."],["Das gilt auch <b>für dich</b>.","That goes for you too."]],
+"geraten":[["Das Unternehmen ist <b>in Schwierigkeiten</b> geraten.","The company has run into difficulties."],["Wir sind <b>in einen heftigen Sturm</b> geraten.","We got caught in a violent storm."]],
+"gliedern":[["Der Aufsatz gliedert sich <b>in drei Teile</b>.","The essay divides into three parts."],["Wir gliedern den Kurs <b>in zwei Blöcke</b>.","We're splitting the course into two blocks."]],
+"halten":[["Was hältst du <b>von diesem Vorschlag</b>?","What do you think of this proposal?"],["Ich halte nicht viel <b>von solchen Versprechen</b>.","I don't think much of promises like that."]],
+"handeln":[["Der Roman handelt <b>von einer langen Reise</b>.","The novel is about a long journey."],["<b>Wovon</b> handelt das Stück?","What is the play about?"]],
+"sich handeln":[["Es handelt sich <b>um einen Irrtum</b>.","It is a mistake."],["Hier handelt es sich <b>um eine seltene Pflanze</b>.","This one is a rare plant."]],
+"hören:von":[["Hast du <b>von dem Unfall</b> gehört?","Have you heard about the accident?"],["Wir haben lange nichts <b>von ihm</b> gehört.","We haven't heard from him in a long time."]],
+"hören:auf":[["Hör <b>auf deine Eltern</b>!","Listen to your parents."],["Er hört <b>auf keinen Rat</b>.","He won't take anybody's advice."]],
+"informieren:über":[["Wir informieren Sie <b>über die neuen Preise</b>.","We'll inform you about the new prices."],["Sie hat sich <b>über die Bedingungen</b> informiert.","She found out about the terms."]],
+"informieren:bei":[["Darüber sollten Sie sich <b>bei der Behörde</b> informieren.","You should get information about that from the authority."],["Informieren Sie sich <b>beim Hersteller</b>.","Check with the manufacturer."]],
+"sich irren":[["Da irrst du dich <b>in einem wichtigen Punkt</b>.","You're mistaken on one important point."],["Ich habe mich <b>in ihm</b> geirrt.","I misjudged him."]],
+"kämpfen:für":[["Sie kämpfen <b>für bessere Bedingungen</b>.","They're fighting for better conditions."],["Er kämpft <b>für seinen Traum</b>.","He's fighting for his dream."]],
+"kämpfen:gegen":[["Die Stadt kämpft <b>gegen den Lärm</b>.","The city is fighting the noise."],["Sie kämpfte lange <b>gegen ihre Zweifel</b>.","She fought her doubts for a long time."]],
+"klagen":[["Viele klagen <b>über die hohen Preise</b>.","A lot of people are complaining about the high prices."],["Der Patient klagt <b>über starke Schmerzen</b>.","The patient complains of severe pain."]],
+"kommen":[["Wir kommen <b>zu einem anderen Schluss</b>.","We come to a different conclusion."],["Es kam <b>zu einem heftigen Streit</b>.","It came to a fierce argument."]],
+"lachen":[["Alle lachten <b>über den Versprecher</b>.","Everyone laughed at the slip of the tongue."],["<b>Über solche Witze</b> lache ich nicht.","I don't laugh at jokes like that."]],
+"leben":[["Sie lebt <b>von ihrer Rente</b>.","She lives on her pension."],["Der Laden lebt <b>von seinen Stammkunden</b>.","The shop lives off its regulars."]],
+"leiden:unter":[["Wir leiden alle <b>unter dem Lärm</b>.","We're all suffering from the noise."],["Die Pflanzen leiden <b>unter der Hitze</b>.","The plants are suffering in the heat."]],
+"liegen":[["Das liegt <b>an einem technischen Fehler</b>.","That's down to a technical fault."],["<b>An dir</b> liegt es bestimmt nicht.","It's certainly not down to you."]],
+"machen":[["Der Erfolg machte ihn <b>zu einem reichen Mann</b>.","Success made him a rich man."],["Du machst mich noch <b>zum Lügner</b>.","You'll make a liar out of me."]],
+"mangeln":[["Es mangelt <b>an frischen Ideen</b>.","There's a shortage of fresh ideas."],["Ihm mangelt es <b>an Geduld</b>.","He's short on patience."]],
+"neigen":[["Er neigt <b>zu Übertreibungen</b>.","He's prone to exaggeration."],["Sie neigt <b>zu einer pessimistischen Sicht</b>.","She tends towards a pessimistic view."]],
+"sich orientieren":[["Wir orientieren uns <b>an den besten Beispielen</b>.","We take our lead from the best examples."],["Die Preise orientieren sich <b>am Markt</b>.","The prices follow the market."]],
+"sich rächen:an":[["Sie wollte sich <b>an ihrem Gegner</b> rächen.","She wanted to take revenge on her opponent."],["Räch dich nicht <b>an den Falschen</b>!","Don't take it out on the wrong people."]],
+"sich rächen:für":[["Er rächte sich <b>für die Niederlage</b>.","He got his revenge for the defeat."],["Sie hat sich <b>für den Verrat</b> gerächt.","She took revenge for the betrayal."]],
+"sich ranken":[["Der Efeu rankt sich <b>um den alten Baum</b>.","The ivy winds around the old tree."],["<b>Um diesen Fund</b> ranken sich viele Legenden.","Many legends have grown up around this find."]],
+"raten":[["Der Arzt riet <b>zu einer Operation</b>.","The doctor advised an operation."],["Ich rate dir <b>zur Vorsicht</b>.","I'd advise you to be careful."]],
+"rechnen":[["<b>Mit so viel Schnee</b> hatte niemand gerechnet.","Nobody had reckoned with this much snow."],["Wir rechnen <b>mit einer Verzögerung</b>.","We're expecting a delay."]],
+"reden:mit":[["Hast du schon <b>mit deinem Vermieter</b> geredet?","Have you talked to your landlord yet?"],["Ich rede nicht mehr <b>mit ihm</b>.","I'm not speaking to him any more."]],
+"sich richten":[["Das Angebot richtet sich <b>an junge Familien</b>.","The offer is aimed at young families."],["Diese Frage richtet sich <b>an die Fachleute</b>.","This question is addressed to the experts."]],
+"riechen":[["Hier riecht es <b>nach frischem Kaffee</b>.","It smells of fresh coffee in here."],["Der Mantel riecht <b>nach Rauch</b>.","The coat smells of smoke."]],
+"schimpfen":[["Er schimpft immer <b>auf das Wetter</b>.","He's forever cursing the weather."],["Schimpf nicht <b>auf die Kollegen</b>!","Don't rail at your colleagues."]],
+"schreiben":[["Sie schreibt seit Jahren <b>an ihrem Roman</b>.","She's been working on her novel for years."],["Er schreibt gerade <b>an einem Artikel</b>.","He's in the middle of writing an article."]],
+"sich schützen":[["Die Creme schützt <b>vor der Sonne</b>.","The cream protects against the sun."],["Wie schützt man sich <b>vor Betrug</b>?","How do you protect yourself against fraud?"]],
+"sehen":[["Ich sehe das <b>als großen Fortschritt</b>.","I see that as a great step forward."],["Sie sieht ihn <b>als einen guten Freund</b>.","She sees him as a good friend."]],
+"sich sehnen":[["Sie sehnt sich <b>nach ein wenig Ruhe</b>.","She longs for a bit of peace."],["Wir sehnen uns <b>nach dem Sommer</b>.","We're longing for summer."]],
+"senken:um":[["Die Bank senkt die Zinsen <b>um 0,5 Prozent</b>.","The bank is cutting interest rates by 0.5 per cent."],["Wir konnten die Kosten <b>um ein Drittel</b> senken.","We managed to cut costs by a third."]],
+"senken:auf":[["Die Temperatur wurde <b>auf 18 Grad</b> gesenkt.","The temperature was lowered to 18 degrees."],["Man senkte den Beitrag <b>auf zehn Euro</b>.","The fee was reduced to ten euros."]],
+"sinken:um":[["Die Zahl der Anmeldungen sank <b>um zwölf Prozent</b>.","The number of registrations fell by twelve per cent."],["Der Preis ist <b>um einen Euro</b> gesunken.","The price has come down by one euro."]],
+"sinken:auf":[["Nachts sinkt die Temperatur <b>auf null Grad</b>.","At night the temperature drops to zero."],["Der Bestand sank <b>auf 200 Tiere</b>.","The population fell to 200 animals."]],
+"sprechen:mit":[["Ich spreche später <b>mit der Kollegin</b>.","I'll speak to my colleague later."],["Sprich bitte <b>mit dem Arzt</b> darüber.","Please speak to the doctor about it."]],
+"sprechen:von":[["Alle sprechen <b>von einem Wunder</b>.","Everyone is speaking of a miracle."],["Sie sprach <b>von einem schweren Jahr</b>.","She spoke of a hard year."]],
+"stammen":[["Die Vase stammt <b>aus dem 18. Jahrhundert</b>.","The vase dates from the 18th century."],["Er stammt <b>aus einer kleinen Stadt</b>.","He comes from a small town."]],
+"staunen":[["Alle staunten <b>über die Aussicht</b>.","Everyone marvelled at the view."],["Ich staune <b>über seine Geduld</b>.","His patience amazes me."]],
+"steigen:um":[["Die Mieten sind <b>um acht Prozent</b> gestiegen.","Rents have risen by eight per cent."],["Die Zahl stieg <b>um das Doppelte</b>.","The figure doubled."]],
+"steigen:auf":[["Die Temperatur steigt <b>auf 30 Grad</b>.","The temperature is rising to 30 degrees."],["Der Umsatz stieg <b>auf zwei Millionen</b>.","Turnover rose to two million."]],
+"stimmen:für":[["Die Mehrheit stimmte <b>für den Antrag</b>.","The majority voted for the motion."],["Ich stimme <b>für den zweiten Vorschlag</b>.","I'm voting for the second proposal."]],
+"stimmen:gegen":[["Nur drei stimmten <b>gegen die Reform</b>.","Only three voted against the reform."],["Warum hast du <b>gegen den Plan</b> gestimmt?","Why did you vote against the plan?"]],
+"sich streiten:mit":[["Er streitet sich ständig <b>mit seinem Bruder</b>.","He's forever quarrelling with his brother."],["Streitet euch nicht <b>mit den Nachbarn</b>!","Don't fall out with the neighbours."]],
+"sich streiten:über":[["Sie stritten sich <b>über die Rechnung</b>.","They argued about the bill."],["<b>Über den Geschmack</b> lässt sich streiten.","Taste is a matter for debate."]],
+"sich täuschen":[["Ich habe mich <b>in ihr</b> getäuscht.","I misjudged her."],["Da täuschst du dich <b>in der Person</b>.","You've got the wrong person there."]],
+"telefonieren":[["Ich habe gestern <b>mit meiner Mutter</b> telefoniert.","I spoke to my mother on the phone yesterday."],["Sie telefoniert gerade <b>mit einem Kunden</b>.","She's on the phone to a client."]],
+"überreden":[["Sie hat mich <b>zu einem Kurzurlaub</b> überredet.","She talked me into a short break."],["Lass dich nicht <b>zu einem Kauf</b> überreden.","Don't let anyone talk you into buying."]],
+"übersetzen:aus":[["Der Text wurde <b>aus dem Spanischen</b> übersetzt.","The text was translated from Spanish."],["Sie übersetzt <b>aus dem Russischen</b>.","She translates from Russian."]],
+"übersetzen:in":[["Das Buch wurde <b>in zwölf Sprachen</b> übersetzt.","The book has been translated into twelve languages."],["Können Sie das <b>ins Deutsche</b> übersetzen?","Could you translate that into German?"]],
+"überzeugen":[["Er hat uns <b>von seinem Plan</b> überzeugt.","He convinced us of his plan."],["Überzeug mich <b>von deiner Idee</b>!","Convince me your idea is right."]],
+"sich umstellen":[["Der Betrieb hat sich <b>auf Ökostrom</b> umgestellt.","The company has switched to green electricity."],["Man muss sich <b>auf die neue Software</b> umstellen.","You have to adjust to the new software."]],
+"sich einstellen":[["Stell dich <b>auf eine lange Wartezeit</b> ein.","Prepare yourself for a long wait."],["Wir haben uns <b>auf kaltes Wetter</b> eingestellt.","We've geared ourselves up for cold weather."]],
+"sich unterhalten:mit":[["Ich habe mich lange <b>mit deiner Schwester</b> unterhalten.","I had a long chat with your sister."],["Er unterhält sich gern <b>mit den Gästen</b>.","He likes chatting with the guests."]],
+"sich unterscheiden:von":[["Dieses Modell unterscheidet sich kaum <b>vom Vorgänger</b>.","This model barely differs from its predecessor."],["Worin unterscheidet er sich <b>von seinem Bruder</b>?","In what way is he different from his brother?"]],
+"sich unterscheiden:in":[["Die Geräte unterscheiden sich <b>in der Größe</b>.","The devices differ in size."],["Sie unterscheiden sich nur <b>in einem Punkt</b>.","They differ in only one respect."]],
+"sich unterscheiden:durch":[["Die Arten unterscheiden sich <b>durch die Farbe</b>.","The species are distinguished by their colour."],["Der Stoff unterscheidet sich <b>durch seinen Glanz</b>.","The fabric stands out through its sheen."]],
+"verbergen":[["Er verbarg die Wahrheit <b>vor seiner Familie</b>.","He hid the truth from his family."],["<b>Vor mir</b> kannst du nichts verbergen.","You can't hide anything from me."]],
+"verheimlichen":[["Sie hat die Nachricht <b>vor ihren Eltern</b> verheimlicht.","She kept the news from her parents."],["Warum verheimlichst du das <b>vor uns</b>?","Why are you keeping that from us?"]],
+"verbinden":[["Ich verbinde <b>mit dieser Musik</b> viele Erinnerungen.","I associate a lot of memories with this music."],["Die Brücke verbindet die Insel <b>mit dem Festland</b>.","The bridge connects the island to the mainland."]],
+"verfügen":[["Das Haus verfügt <b>über einen großen Garten</b>.","The house has a large garden."],["Sie verfügt <b>über viel Erfahrung</b>.","She has a great deal of experience."]],
+"verklagen":[["Die Firma wurde <b>auf Schadenersatz</b> verklagt.","The company was sued for damages."],["Er verklagte den Händler <b>auf Rückzahlung</b>.","He sued the dealer for a refund."]],
+"verleiten":[["Der niedrige Preis verleitet <b>zu Spontankäufen</b>.","The low price tempts people into impulse buys."],["Nichts darf uns <b>zu Leichtsinn</b> verleiten.","Nothing should tempt us into carelessness."]],
+"verstehen":[["Was verstehst du <b>unter Gerechtigkeit</b>?","What do you understand by justice?"],["<b>Unter diesem Begriff</b> versteht man mehrere Dinge.","This term covers several different things."]],
+"verstoßen":[["Das verstößt <b>gegen die Hausordnung</b>.","That breaches the house rules."],["Er hat <b>gegen die Auflagen</b> verstoßen.","He breached the conditions."]],
+"sich vertiefen":[["Sie vertiefte sich <b>in ein altes Buch</b>.","She buried herself in an old book."],["Er vertieft sich gern <b>in schwierige Fragen</b>.","He likes getting stuck into difficult questions."]],
+"vertrauen":[["Wir vertrauen <b>auf deine Erfahrung</b>.","We trust in your experience."],["Er vertraut <b>auf sein Glück</b>.","He trusts to his luck."]],
+"verzichten":[["Ich verzichte <b>auf den Nachtisch</b>.","I'll pass on the dessert."],["Die Stadt verzichtet <b>auf ein Feuerwerk</b>.","The city is doing without fireworks."]],
+"sich vorbereiten":[["Sie bereitet sich <b>auf die Prüfung</b> vor.","She's preparing for the exam."],["Wir haben uns gut <b>auf das Gespräch</b> vorbereitet.","We prepared well for the interview."]],
+"warnen":[["Die Polizei warnt <b>vor falschen Anrufen</b>.","The police are warning about scam calls."],["Man hat uns <b>vor dem Eis</b> gewarnt.","We were warned about the ice."]],
+"sich wehren":[["Sie wehrt sich <b>gegen den Vorwurf</b>.","She's defending herself against the accusation."],["Wehr dich <b>gegen solche Behauptungen</b>!","Stand up against claims like that."]],
+"werben":[["Der Verein wirbt <b>für neue Mitglieder</b>.","The club is campaigning for new members."],["Sie wirbt <b>für ein neues Produkt</b>.","She's advertising a new product."]],
+"wissen:von":[["Ich wusste nichts <b>von dieser Regel</b>.","I didn't know about this rule."],["Weiß er schon <b>von dem Termin</b>?","Does he know about the appointment yet?"]],
+"wissen:über":[["Was weißt du <b>über diese Firma</b>?","What do you know about this company?"],["Sie weiß viel <b>über alte Musik</b>.","She knows a lot about early music."]],
+"sich wundern":[["Ich wundere mich <b>über seine Ruhe</b>.","I'm amazed at how calm he is."],["Wundere dich nicht <b>über die Preise</b>!","Don't be surprised at the prices."]],
+"zählen":[["Sie zählt <b>zu den besten Spielerinnen</b>.","She's one of the best players."],["Das Gebäude zählt <b>zu den ältesten der Stadt</b>.","The building is one of the oldest in the city."]],
+"zurückführen":[["Man führt den Fehler <b>auf eine falsche Eingabe</b> zurück.","The error is put down to a wrong entry."],["Der Erfolg ist <b>auf harte Arbeit</b> zurückzuführen.","The success comes down to hard work."]],
+"zwingen":[["Die Lage zwingt uns <b>zu einer schnellen Entscheidung</b>.","The situation forces us into a quick decision."],["Niemand zwingt dich <b>zu diesem Schritt</b>.","Nobody is forcing you to take this step."]],
 };
 
 // Second line under the case rule — only where English or a near-twin German
@@ -1187,7 +1494,61 @@ const PREP_TRAPS = {
 "schmecken":"schmecken <b>nach</b> + dat. = to taste OF; schmecken with a bare dative = to taste good TO someone: es schmeckt mir.",
 "zweifeln":"zweifeln <b>an</b> + dat. = to doubt something; bezweifeln takes a bare accusative: ich bezweifle das.",
 "sich ärgern":"sich ärgern <b>über</b> + acc. = to be annoyed about. The trigger is accusative, even though the annoyance just sits there.",
-"träumen":"träumen <b>von</b> + dat. — the dream comes FROM somewhere, so dative, both for the night-time and the ambition sense."
+"träumen":"träumen <b>von</b> + dat. — the dream comes FROM somewhere, so dative, both for the night-time and the ambition sense.",
+"basieren":"basieren takes <b>auf + DATIVE</b> — the one everyday auf-verb that does not take the accusative. Compare warten auf + acc.",
+"bestehen:auf":"Three meanings, three prepositions: bestehen <b>auf</b> + dat. = insist on, bestehen <b>aus</b> + dat. = consist of, bestehen <b>in</b> + dat. = lie in.",
+"bestehen:in":"Three meanings, three prepositions: bestehen <b>in</b> + dat. = lie in, bestehen <b>aus</b> + dat. = consist of, bestehen <b>auf</b> + dat. = insist on.",
+"halten":"halten <b>von</b> + dat. = to have an opinion of; halten <b>für</b> + acc. = to consider someone to BE something: ich halte ihn für ehrlich.",
+"hören:auf":"hören <b>auf</b> + acc. = to heed, to take advice; hören <b>von</b> + dat. = to hear about. Plain listening is zuhören with a bare dative.",
+"hören:von":"hören <b>von</b> + dat. = to hear about or from someone; hören <b>auf</b> + acc. = to do as you are told.",
+"schreiben":"schreiben <b>an + DATIVE</b> = to be at work on a text; schreiben <b>an + ACCUSATIVE</b> = to write TO someone (an meine Schwester). Same preposition, the case carries the meaning.",
+"senken:um":"<b>um</b> + acc. = by how much, <b>auf</b> + acc. = down to what level. Die Miete sinkt um 50 Euro is the size of the cut, auf 50 Euro is the new rent.",
+"senken:auf":"<b>auf</b> + acc. = the level reached, <b>um</b> + acc. = the size of the change. Both accusative, so only the preposition tells them apart.",
+"sinken:um":"<b>um</b> + acc. = by how much, <b>auf</b> + acc. = down to what level. Same pair as steigen and senken.",
+"sinken:auf":"<b>auf</b> + acc. = the level reached, <b>um</b> + acc. = the size of the drop. Same pair as steigen and senken.",
+"steigen:um":"<b>um</b> + acc. = by how much, <b>auf</b> + acc. = up to what level. Um zehn Euro is the rise, auf zehn Euro is the new figure.",
+"steigen:auf":"<b>auf</b> + acc. = the figure reached, <b>um</b> + acc. = the size of the rise.",
+"leiden:unter":"leiden <b>unter</b> + dat. = to suffer under conditions (noise, heat, pressure); leiden <b>an</b> + dat. = to suffer from an illness.",
+"raten":"raten <b>zu</b> + dat. = to advise in favour of; abraten <b>von</b> + dat. = to advise against. The person advised stays in the bare dative: ich rate dir zu…",
+"vertrauen":"vertrauen <b>auf</b> + acc. = to place your trust in something; vertrauen with a bare dative = to trust a person: ich vertraue dir.",
+"arbeiten:bei":"Three readings: arbeiten <b>bei</b> + dat. = your employer, arbeiten <b>an</b> + dat. = the task, arbeiten <b>als</b> + nom. = your job title.",
+"arbeiten:als":"arbeiten <b>als</b> takes the <b>nominative</b>, because als equates the job title with the subject: sie arbeitet als Projektmanagerin.",
+"sich unterscheiden:von":"unterscheiden <b>von</b> + dat. = to differ FROM something, <b>in</b> + dat. = to differ IN a respect, <b>durch</b> + acc. = to be told apart BY a feature.",
+"sich unterscheiden:in":"unterscheiden <b>in</b> + dat. = the respect in which they differ; <b>von</b> + dat. = what they differ from; <b>durch</b> + acc. = the distinguishing feature.",
+"sich unterscheiden:durch":"unterscheiden <b>durch</b> + acc. = the feature that tells them apart; <b>von</b> + dat. = what they differ from; <b>in</b> + dat. = the respect.",
+"wissen:von":"wissen <b>von</b> + dat. = to have heard of something; wissen <b>über</b> + acc. = to have knowledge about a subject.",
+"wissen:über":"wissen <b>über</b> + acc. = to know a subject; wissen <b>von</b> + dat. = merely to have heard of something.",
+"sich rächen:an":"sich rächen <b>an</b> + dat. = on the person; sich rächen <b>für</b> + acc. = for the deed. Both can stand in one sentence.",
+"sich rächen:für":"sich rächen <b>für</b> + acc. = for the deed; sich rächen <b>an</b> + dat. = on the person.",
+"übersetzen:aus":"<b>aus</b> + dat. names the source language, <b>in</b> + acc. the target: aus dem Spanischen ins Deutsche.",
+"übersetzen:in":"<b>in</b> + acc. names the target language, <b>aus</b> + dat. the source: aus dem Spanischen ins Deutsche.",
+"gelten:als":"gelten <b>als</b> + nom. = to be regarded as; gelten <b>für</b> + acc. = to apply to someone.",
+"gelten:für":"gelten <b>für</b> + acc. = to apply to; gelten <b>als</b> + nom. = to be regarded as.",
+"sprechen:mit":"sprechen <b>mit</b> + dat. = the person, <b>über</b> + acc. = the topic, <b>von</b> + dat. = to mention or speak of.",
+"sprechen:von":"sprechen <b>von</b> + dat. = to speak of, <b>über</b> + acc. = to discuss a topic at length, <b>mit</b> + dat. = the person you speak to.",
+"informieren:über":"informieren <b>über</b> + acc. = to pass information on; sich informieren <b>bei</b> + dat. = to go and get it from a source.",
+"informieren:bei":"sich informieren <b>bei</b> + dat. = the source you ask; informieren <b>über</b> + acc. = the subject.",
+"sich eignen:für":"sich eignen <b>für</b> + acc. = suitable for a group or purpose; sich eignen <b>zu</b> + dat. = cut out to be something.",
+"sich eignen:zu":"sich eignen <b>zu</b> + dat. = cut out for a role; sich eignen <b>für</b> + acc. = suitable for a group or purpose.",
+"ansehen":"ansehen, sehen, bezeichnen and beschreiben take <b>als + accusative</b>, because als matches the accusative object. But arbeiten, gelten and dienen als take the <b>nominative</b>, matching the subject.",
+"sehen":"sehen … <b>als</b> + acc., matching the accusative object. Contrast gelten <b>als</b> + nom., which matches the subject.",
+"bezeichnen":"bezeichnen <b>als</b> + acc. — als copies the case of the object being labelled, and that object is accusative.",
+"beschreiben":"beschreiben <b>als</b> + acc. — als copies the case of the object being described, and that object is accusative.",
+"dienen:als":"dienen <b>als</b> + nom. (the thing serving is the subject); dienen <b>zu</b> + dat. names the purpose instead.",
+"dienen:zu":"dienen <b>zu</b> + dat. = for what purpose; dienen <b>als</b> + nom. = in what role.",
+"gehen":"Almost always impersonal: <b>es geht um</b> + acc. = it is about. For a book or film, handeln <b>von</b> + dat. does the same job.",
+"sich handeln":"Impersonal and fixed: <b>es handelt sich um</b> + acc. = it is a case of. Sister form of es geht um.",
+"mangeln":"Impersonal, like fehlen: <b>es mangelt an</b> + dat. = there is a shortage of. Es fehlt an is the everyday equivalent.",
+"fehlen":"Impersonal here: <b>es fehlt an</b> + dat. = there is a shortage of. Plain fehlen with a bare dative means to be missed: du fehlst mir.",
+"erwarten":"erwarten <b>von</b> + dat. = to expect something OF a person; the thing expected is a plain accusative object.",
+"sich beklagen:bei":"<b>bei</b> + dat. is the person you take it to, <b>über</b> + acc. is what you are complaining about. Same split for sich beschweren, sich bedanken, sich entschuldigen, sich erkundigen.",
+"sich beschweren:bei":"<b>bei</b> + dat. = whom you complain to, <b>über</b> + acc. = what about. Same split as sich beklagen.",
+"sich bedanken:bei":"<b>bei</b> + dat. = whom you thank, <b>für</b> + acc. = what for: sich bei jemandem für etwas bedanken.",
+"sich entschuldigen:bei":"<b>bei</b> + dat. = whom you apologise to, <b>für</b> + acc. = what for: sich bei jemandem für etwas entschuldigen.",
+"sich erkundigen:bei":"<b>bei</b> + dat. = whom you ask, <b>nach</b> + dat. = what about. Both dative here, so only the preposition carries the difference.",
+"sich erkundigen:nach":"<b>nach</b> + dat. = what you are asking about, <b>bei</b> + dat. = whom you ask.",
+"verbergen":"verbergen and verheimlichen both take <b>vor</b> + dat. for the person kept in the dark — not von.",
+"verheimlichen":"verheimlichen, like verbergen, takes <b>vor</b> + dat. for the person kept in the dark — not von.",
 };
 
 const ALWAYS_DATIVE_PREPS = ["aus","bei","mit","nach","seit","von","zu"];
@@ -1200,6 +1561,13 @@ function prepCaseRule(item){
   const caseName = item.case === "Accusative" ? "accusative" : "dative";
   const w = item.word.replace(/\s*\([^)]*\)\s*$/, "").trim();
   let line = `<b>${w}</b> governs <b>${p} + ${item.case}</b> — learn the three as one unit.`;
+  if(p === "als"){
+    return `<b>${w}</b> takes <b>als + ${item.case}</b>. als is not a case-governing preposition at all: it
+      equates two things, so the noun after it simply copies the case of the noun it is equated with —
+      ${item.case === "Nominative"
+        ? "here that is the subject, hence nominative (Sie arbeitet als Projektmanagerin)."
+        : "here that is the accusative object, hence accusative (Ich sehe ihn als meinen Freund an)."}`;
+  }
   if(ALWAYS_DATIVE_PREPS.indexOf(p) !== -1){
     line += ` Easy half: <b>${p}</b> is one of the always-dative prepositions (aus, bei, mit, nach, seit, von, zu), so the case never varies, whatever the verb.`;
   }else if(ALWAYS_ACC_PREPS.indexOf(p) !== -1){
@@ -1287,13 +1655,13 @@ const engine = {
       const transTail = item.trans.replace(/^to\s+/, "").split(" / ").pop().trim();
 
       const hook = prepCaseRule(item)
-        + (PREP_TRAPS[item.word] ? `<span class="hook-trap">${PREP_TRAPS[item.word]}</span>` : "");
+        + (PREP_TRAPS[prepKey(item)] ? `<span class="hook-trap">${PREP_TRAPS[prepKey(item)]}</span>` : "");
 
       // Hand-written sentences per entry. The generated frame below is only a
       // safety net for an entry added to prepositionsDB without a pair — it
       // produces grammatical but meaningless German ("Man kann von dieser
       // Situation abmelden"), so keep PREP_EXAMPLES in step with the data.
-      const curated = PREP_EXAMPLES[item.word];
+      const curated = PREP_EXAMPLES[prepKey(item)];
       if(curated){
         return {
           tip: hook,
@@ -1385,6 +1753,7 @@ function fieldsTemplateFor(item){
     field2html: `<select id="input-field2" class="blank-select">
         <option value="Accusative">Accusative</option>
         <option value="Dative">Dative</option>
+        <option value="Nominative">Nominative</option>
       </select>`
   };
 }
@@ -1555,7 +1924,8 @@ const LIST_DECKS = {
 const LIST_BLOBS = {};
 ALL_ITEMS.forEach(it => { LIST_BLOBS[it.id] = searchBlob(it); });
 
-const PREP_ORDER = ["an","auf","über","mit","für","von","zu","um","nach","vor","in","gegen","aus"];
+const PREP_ORDER = ["an","auf","über","mit","von","zu","für","um","in","vor","bei","nach","gegen",
+                    "aus","als","unter","durch"];
 const LIST_PREPS = PREP_ORDER.filter(p => prepositionsDB.some(it => it.prep === p))
   .concat([...new Set(prepositionsDB.map(it => it.prep))].filter(p => !PREP_ORDER.includes(p)).sort());
 
@@ -1564,7 +1934,10 @@ function listChipsFor(deck){
   if(deck === "preps"){
     base.push(
       { key:"akk",  label:"Accusative" },
-      { key:"dat",  label:"Dative" },
+      { key:"dat",  label:"Dative" }
+    );
+    if(prepositionsDB.some(it => it.case === "Nominative")) base.push({ key:"nom", label:"Nominative" });
+    base.push(
       { key:"adj",  label:"Adjectives" },
       { key:"weak", label:"Needs practice" },
       { key:"done", label:"Mastered" }
@@ -1589,6 +1962,7 @@ function matchesFilter(item, filter){
   if(item.type === "prep"){
     if(filter === "akk") return item.case === "Accusative";
     if(filter === "dat") return item.case === "Dative";
+    if(filter === "nom") return item.case === "Nominative";
     if(filter === "adj") return item.type2 === "Adjektiv";
     if(filter.indexOf("prep:") === 0) return item.prep === filter.slice(5);
     return true;
@@ -1630,8 +2004,8 @@ function boxPill(item){
 function entryRowHtml(item, q){
   const head = headwordOf(item);
   if(item.type === "prep"){
-    const caseCls = item.case === "Accusative" ? "prep-akk" : "prep-dat";
-    const caseAbbr = item.case === "Accusative" ? "Akk." : "Dat.";
+    const caseCls = CASE_CLS[item.case] || "prep-dat";
+    const caseAbbr = CASE_ABBR[item.case] || "Dat.";
     const kind = item.type2 === "Adjektiv"
       ? `<span class="entry-kind">Adjektiv</span>` : "";
     return `
