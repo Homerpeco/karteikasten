@@ -90,6 +90,7 @@ h1{font-size:1.45rem;line-height:1.15;margin:0;font-weight:800;letter-spacing:-0
 }
 .tab:hover{color:var(--ink);background:rgba(16,24,40,0.04);}
 .tab.active{background:var(--blue);color:#fff;box-shadow:0 1px 3px rgba(37,99,235,0.3);}
+.t-abbr{display:none;}
 .tab-badge{background:rgba(16,24,40,0.09);border-radius:999px;padding:1px 7px;font-size:0.66rem;font-weight:700;}
 .tab.active .tab-badge{background:rgba(255,255,255,0.24);color:#fff;}
 
@@ -292,6 +293,12 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
 .chip:hover{border-color:var(--blue-border);color:var(--blue);}
 .chip.active{background:var(--blue);border-color:var(--blue);color:#fff;}
 .chip .mono{font-family:'Space Mono',monospace;}
+.chip-wrap{display:flex;align-items:flex-start;gap:6px;}
+.chip-wrap .chip-row{flex:1;min-width:0;}
+.chip-more{flex:0 0 auto;margin-top:10px;white-space:nowrap;font-family:'Inter',sans-serif;
+  font-size:0.66rem;font-weight:700;padding:6px 9px;border-radius:999px;cursor:pointer;
+  background:var(--page-2);border:1px solid var(--border);color:var(--ink-mid);display:none;}
+.chip-more:hover{color:var(--blue);border-color:var(--blue-border);}
 .list-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 4px;}
 .list-count{font-family:'Space Mono',monospace;font-size:0.7rem;font-weight:700;color:var(--ink-mid);}
 .list-hint{font-size:0.67rem;color:var(--ink-soft);font-weight:500;}
@@ -341,8 +348,14 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
 @media(max-width:640px){
   .folder-tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;}
   .folder-tabs::-webkit-scrollbar{height:0;display:none;}
-  .tab{flex:1 0 auto;font-size:0.74rem;padding:10px 9px;}
+  .tab{flex:1 1 auto;font-size:0.7rem;padding:10px 4px;gap:4px;min-width:0;}
+  .t-full{display:none;}
+  .t-abbr{display:inline;}
+  .tab-badge{padding:1px 5px;font-size:0.6rem;}
+  .folder-tabs{gap:3px;padding:4px;}
   .chip-row{flex-wrap:nowrap;overflow-x:auto;}
+  .chip-row.expanded{flex-wrap:wrap;overflow-x:visible;}
+  .chip-more{display:block;}
   .detail-sem{grid-template-columns:1fr;}
 }
 </style>
@@ -370,10 +383,11 @@ kbd{background:var(--page);border:1px solid var(--border);border-radius:5px;padd
   </header>
 
   <nav class="folder-tabs">
-    <button id="tab-verbs" class="tab active" data-mode="verbs">Verben</button>
-    <button id="tab-preps" class="tab" data-mode="preps">Präpositionen</button>
-    <button id="tab-weak" class="tab" data-mode="weak">Wiederholen <span class="tab-badge" id="weak-badge">0</span></button>
-    <button id="tab-list" class="tab" data-mode="list">Liste</button>
+    <button id="tab-verbs" class="tab active" data-mode="verbs"><span class="t-full">Verben</span><span class="t-abbr">Verben</span></button>
+    <button id="tab-preps" class="tab" data-mode="preps"><span class="t-full">Präpositionen</span><span class="t-abbr">Präp.</span></button>
+    <button id="tab-adj" class="tab" data-mode="adj"><span class="t-full">Adjektive</span><span class="t-abbr">Adj.</span></button>
+    <button id="tab-weak" class="tab" data-mode="weak"><span class="t-full">Wiederholen</span><span class="t-abbr">Wdh.</span> <span class="tab-badge" id="weak-badge">0</span></button>
+    <button id="tab-list" class="tab" data-mode="list"><span class="t-full">Liste</span><span class="t-abbr">Liste</span></button>
   </nav>
 
   <div id="box-meter-wrap"></div>
@@ -615,14 +629,12 @@ const prepositionsDB = [
   { word: "abraten", type2: "Verb", prep: "von", case: "Dative", trans: "to advise against" },
   { word: "achten", type2: "Verb", prep: "auf", case: "Accusative", trans: "to pay attention to" },
   { word: "anfangen", type2: "Verb", prep: "mit", case: "Dative", trans: "to begin with" },
-  { word: "angewiesen", type2: "Adjektiv", prep: "auf", case: "Accusative", trans: "dependent on" },
   { word: "sich ängstigen", type2: "Verb", prep: "vor", case: "Dative", trans: "to be afraid of" },
   { word: "ankommen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to depend on" },
   { word: "anpassen", type2: "Verb", prep: "an", case: "Accusative", trans: "to adapt to" },
   { word: "antworten", type2: "Verb", prep: "auf", case: "Accusative", trans: "to answer to" },
   { word: "arbeiten", type2: "Verb", prep: "an", case: "Dative", trans: "to work on" },
   { word: "sich ärgern", type2: "Verb", prep: "über", case: "Accusative", trans: "to be annoyed about" },
-  { word: "arm", type2: "Adjektiv", prep: "an", case: "Dative", trans: "poor in / lacking" },
   { word: "aufhören", type2: "Verb", prep: "mit", case: "Dative", trans: "to stop with / quit" },
   { word: "aufpassen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to watch / look after" },
   { word: "sich aufregen", type2: "Verb", prep: "über", case: "Accusative", trans: "to get worked up over" },
@@ -636,7 +648,6 @@ const prepositionsDB = [
   { word: "bestehen", type2: "Verb", prep: "aus", case: "Dative", trans: "to consist of" },
   { word: "sich bewerben", type2: "Verb", prep: "um", case: "Accusative", trans: "to apply for" },
   { word: "bitten", type2: "Verb", prep: "um", case: "Accusative", trans: "to request / plead for" },
-  { word: "böse", type2: "Adjektiv", prep: "auf", case: "Accusative", trans: "angry at" },
   { word: "danken", type2: "Verb", prep: "für", case: "Accusative", trans: "to thank for" },
   { word: "denken", type2: "Verb", prep: "an", case: "Accusative", trans: "to keep in mind / think of" },
   { word: "diskutieren", type2: "Verb", prep: "über", case: "Accusative", trans: "to debate about" },
@@ -655,7 +666,6 @@ const prepositionsDB = [
   { word: "gratulieren", type2: "Verb", prep: "zu", case: "Dative", trans: "to congratulate on" },
   { word: "hoffen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to hope for" },
   { word: "sich interessieren", type2: "Verb", prep: "für", case: "Accusative", trans: "to find interest in" },
-  { word: "interessiert", type2: "Adjektiv", prep: "an", case: "Dative", trans: "interested in" },
   { word: "sich konzentrieren", type2: "Verb", prep: "auf", case: "Accusative", trans: "to focus on" },
   { word: "sich kümmern", type2: "Verb", prep: "um", case: "Accusative", trans: "to look after / attend to" },
   { word: "leiden", type2: "Verb", prep: "an", case: "Dative", trans: "to suffer from (disease)" },
@@ -669,18 +679,14 @@ const prepositionsDB = [
   { word: "sich sorgen", type2: "Verb", prep: "um", case: "Accusative", trans: "to be anxious about" },
   { word: "sprechen", type2: "Verb", prep: "über", case: "Accusative", trans: "to converse about" },
   { word: "sterben", type2: "Verb", prep: "an", case: "Dative", trans: "to perish / die of" },
-  { word: "stolz", type2: "Adjektiv", prep: "auf", case: "Accusative", trans: "proud of" },
   { word: "suchen", type2: "Verb", prep: "nach", case: "Dative", trans: "to search for" },
   { word: "teilnehmen", type2: "Verb", prep: "an", case: "Dative", trans: "to participate in" },
   { word: "träumen", type2: "Verb", prep: "von", case: "Dative", trans: "to dream of" },
   { word: "sich treffen", type2: "Verb", prep: "mit", case: "Dative", trans: "to meet up with" },
-  { word: "überzeugt", type2: "Adjektiv", prep: "von", case: "Dative", trans: "convinced of" },
   { word: "sich unterhalten", type2: "Verb", prep: "über", case: "Accusative", trans: "to chat about" },
   { word: "sich verlassen", type2: "Verb", prep: "auf", case: "Accusative", trans: "to depend/rely on" },
   { word: "sich verlieben", type2: "Verb", prep: "in", case: "Accusative", trans: "to fall in love with" },
-  { word: "verantwortlich", type2: "Adjektiv", prep: "für", case: "Accusative", trans: "responsible for" },
   { word: "warten", type2: "Verb", prep: "auf", case: "Accusative", trans: "to wait for" },
-  { word: "zufrieden", type2: "Adjektiv", prep: "mit", case: "Dative", trans: "content / satisfied with" },
   { word: "zweifeln", type2: "Verb", prep: "an", case: "Dative", trans: "to cast doubt on" }
 ,
   // --- C-Grammatik, Anhang 7.4 "Verben mit präpositionalem Kasus" ---
@@ -835,7 +841,90 @@ const prepositionsDB = [
   { word: "zwingen", type2: "Verb", prep: "zu", case: "Dative", trans: "to force into" },
 ].map(p => ({ ...p, type: "prep", id: "prep:" + (p.key || p.word) }));
 
-const ALL_ITEMS = [...irregularVerbsDB, ...prepositionsDB];
+// =========================================================
+// DATA — C-Grammatik, Anhang 7.5 "Adjektive mit präpositionalem Kasus"
+// =========================================================
+// The eight adjectives that used to live in prepositionsDB moved here and carry
+// legacyId, so their card ids — and the Leitner boxes behind them — are unchanged.
+const adjectivesDB = [
+  { word: "abhängig", prep: "von", case: "Dative", trans: "dependent on" },
+  { word: "adressiert", prep: "an", case: "Accusative", trans: "addressed to" },
+  { word: "anerkannt", prep: "als", case: "Nominative", trans: "recognised as" },
+  { word: "angewiesen", prep: "auf", case: "Accusative", trans: "dependent on", legacyId: "prep:angewiesen" },
+  { word: "arm", prep: "an", case: "Dative", trans: "poor in / lacking", legacyId: "prep:arm" },
+  { word: "aufgeschlossen", prep: "gegenüber", case: "Dative", trans: "open to" },
+  { word: "beeindruckt", prep: "von", case: "Dative", trans: "impressed by" },
+  { word: "befreundet", prep: "mit", case: "Dative", trans: "friends with" },
+  { word: "begeistert", prep: "von", case: "Dative", trans: "thrilled by" },
+  { word: "bekannt", prep: "als", case: "Nominative", trans: "known as", key: "bekannt:als" },
+  { word: "bekannt", prep: "bei", case: "Dative", trans: "well known among", key: "bekannt:bei" },
+  { word: "bekannt", prep: "für", case: "Accusative", trans: "famous for", key: "bekannt:für" },
+  { word: "beliebt", prep: "bei", case: "Dative", trans: "popular with" },
+  { word: "bereit", prep: "zu", case: "Dative", trans: "prepared to / willing to" },
+  { word: "beschäftigt", prep: "mit", case: "Dative", trans: "busy with" },
+  { word: "besorgt", prep: "um", case: "Accusative", trans: "worried about" },
+  { word: "beteiligt", prep: "an", case: "Dative", trans: "involved in" },
+  { word: "beunruhigt", prep: "über", case: "Accusative", trans: "alarmed about" },
+  { word: "bewandert", prep: "auf", case: "Dative", trans: "well versed in (a field)", key: "bewandert:auf" },
+  { word: "bewandert", prep: "in", case: "Dative", trans: "well versed in (a subject)", key: "bewandert:in" },
+  { word: "blass", prep: "vor", case: "Dative", trans: "pale with" },
+  { word: "böse", prep: "auf", case: "Accusative", trans: "angry at", legacyId: "prep:böse" },
+  { word: "charakteristisch", prep: "für", case: "Accusative", trans: "characteristic of" },
+  { word: "dankbar", prep: "für", case: "Accusative", trans: "grateful for" },
+  { word: "eifersüchtig", prep: "auf", case: "Accusative", trans: "jealous of" },
+  { word: "einverstanden", prep: "mit", case: "Dative", trans: "in agreement with" },
+  { word: "entfernt", prep: "von", case: "Dative", trans: "distant from" },
+  { word: "entscheidend", prep: "für", case: "Accusative", trans: "decisive for" },
+  { word: "entsetzt", prep: "über", case: "Accusative", trans: "appalled at" },
+  { word: "enttäuscht", prep: "von", case: "Dative", trans: "disappointed by" },
+  { word: "erfahren", prep: "in", case: "Dative", trans: "experienced in" },
+  { word: "erfreut", prep: "über", case: "Accusative", trans: "pleased about" },
+  { word: "erstaunt", prep: "über", case: "Accusative", trans: "astonished at" },
+  { word: "fertig", prep: "mit", case: "Dative", trans: "finished with" },
+  { word: "frei", prep: "von", case: "Dative", trans: "free of" },
+  { word: "freundlich", prep: "zu", case: "Dative", trans: "friendly towards" },
+  { word: "froh", prep: "über", case: "Accusative", trans: "glad about" },
+  { word: "fähig", prep: "zu", case: "Dative", trans: "capable of" },
+  { word: "geeignet", prep: "für", case: "Accusative", trans: "suitable for" },
+  { word: "geschickt", prep: "in", case: "Dative", trans: "skilful at" },
+  { word: "gespannt", prep: "auf", case: "Accusative", trans: "eager to see" },
+  { word: "gewöhnt", prep: "an", case: "Accusative", trans: "used to" },
+  { word: "glücklich", prep: "über", case: "Accusative", trans: "happy about" },
+  { word: "gut", prep: "zu", case: "Dative", trans: "kind to", key: "gut:zu" },
+  { word: "gut", prep: "in", case: "Dative", trans: "good at", key: "gut:in" },
+  { word: "gut", prep: "für", case: "Accusative", trans: "good for", key: "gut:für" },
+  { word: "immun", prep: "gegen", case: "Accusative", trans: "immune to" },
+  { word: "interessiert", prep: "an", case: "Dative", trans: "interested in", legacyId: "prep:interessiert" },
+  { word: "misstrauisch", prep: "gegenüber", case: "Dative", trans: "mistrustful of" },
+  { word: "müde", prep: "von", case: "Dative", trans: "tired from" },
+  { word: "nachlässig", prep: "in", case: "Dative", trans: "careless in" },
+  { word: "nett", prep: "zu", case: "Dative", trans: "nice to" },
+  { word: "neugierig", prep: "auf", case: "Accusative", trans: "curious about" },
+  { word: "nützlich", prep: "für", case: "Accusative", trans: "useful for" },
+  { word: "reich", prep: "an", case: "Dative", trans: "rich in" },
+  { word: "schuld", prep: "an", case: "Dative", trans: "to blame for" },
+  { word: "schädlich", prep: "für", case: "Accusative", trans: "harmful to" },
+  { word: "stolz", prep: "auf", case: "Accusative", trans: "proud of", legacyId: "prep:stolz" },
+  { word: "stumm", prep: "vor", case: "Dative", trans: "speechless with" },
+  { word: "traurig", prep: "über", case: "Accusative", trans: "sad about" },
+  { word: "unterteilt", prep: "in", case: "Accusative", trans: "divided into" },
+  { word: "verantwortlich", prep: "für", case: "Accusative", trans: "responsible for", legacyId: "prep:verantwortlich" },
+  { word: "verliebt", prep: "in", case: "Accusative", trans: "in love with" },
+  { word: "verrückt", prep: "nach", case: "Dative", trans: "crazy about" },
+  { word: "verwandt", prep: "mit", case: "Dative", trans: "related to" },
+  { word: "verwundert", prep: "über", case: "Accusative", trans: "puzzled at" },
+  { word: "verärgert", prep: "über", case: "Accusative", trans: "annoyed about" },
+  { word: "wichtig", prep: "für", case: "Accusative", trans: "important for" },
+  { word: "wütend", prep: "auf", case: "Accusative", trans: "furious with (a person)", key: "wütend:auf" },
+  { word: "wütend", prep: "über", case: "Accusative", trans: "furious about (a thing)", key: "wütend:über" },
+  { word: "zufrieden", prep: "mit", case: "Dative", trans: "content / satisfied with", legacyId: "prep:zufrieden" },
+  { word: "zurückhaltend", prep: "gegenüber", case: "Dative", trans: "reserved towards" },
+  { word: "zuständig", prep: "für", case: "Accusative", trans: "in charge of" },
+  { word: "überzeugt", prep: "von", case: "Dative", trans: "convinced of", legacyId: "prep:überzeugt" },
+].map(a => ({ ...a, type: "adj", type2: "Adjektiv",
+              id: a.legacyId || ("adj:" + (a.key || a.word)) }));
+
+const ALL_ITEMS = [...irregularVerbsDB, ...prepositionsDB, ...adjectivesDB];
 const MASTER_BOX = 5;
 const WEAK_CEILING = 4; // box < this counts as "needs review"
 
@@ -1206,6 +1295,7 @@ let appState = {
 function poolForMode(mode){
   if(mode === "verbs") return irregularVerbsDB;
   if(mode === "preps") return prepositionsDB;
+  if(mode === "adj") return adjectivesDB;
   // weak: combined items still under mastery ceiling
   return ALL_ITEMS.filter(it => getBoxInfo(progress, it.id).box < WEAK_CEILING);
 }
@@ -1459,6 +1549,72 @@ const PREP_EXAMPLES = {
 "zählen":[["Sie zählt <b>zu den besten Spielerinnen</b>.","She's one of the best players."],["Das Gebäude zählt <b>zu den ältesten der Stadt</b>.","The building is one of the oldest in the city."]],
 "zurückführen":[["Man führt den Fehler <b>auf eine falsche Eingabe</b> zurück.","The error is put down to a wrong entry."],["Der Erfolg ist <b>auf harte Arbeit</b> zurückzuführen.","The success comes down to hard work."]],
 "zwingen":[["Die Lage zwingt uns <b>zu einer schnellen Entscheidung</b>.","The situation forces us into a quick decision."],["Niemand zwingt dich <b>zu diesem Schritt</b>.","Nobody is forcing you to take this step."]],
+"abhängig":[["Das ganze Dorf ist <b>vom Tourismus</b> abhängig.","The whole village depends on tourism."],["Die Ernte ist stark <b>vom Wetter</b> abhängig.","The harvest depends heavily on the weather."]],
+"adressiert":[["Der Brief ist <b>an den Vermieter</b> adressiert.","The letter is addressed to the landlord."],["Das Paket war gar nicht <b>an mich</b> adressiert.","The parcel wasn't addressed to me at all."]],
+"anerkannt":[["Sie ist <b>als führende Expertin</b> anerkannt.","She is recognised as a leading expert."],["Er ist international <b>als großer Pianist</b> anerkannt.","He is recognised internationally as a great pianist."]],
+"aufgeschlossen":[["Sie ist <b>neuen Ideen gegenüber</b> sehr aufgeschlossen.","She is very open to new ideas."],["Er zeigt sich <b>gegenüber jeder Kritik</b> aufgeschlossen.","He shows himself open to any kind of criticism."]],
+"beeindruckt":[["Alle waren <b>von ihrem Vortrag</b> beeindruckt.","Everyone was impressed by her talk."],["Ich bin <b>von der Aussicht</b> tief beeindruckt.","I'm deeply impressed by the view."]],
+"befreundet":[["Wir sind seit der Schulzeit <b>mit ihnen</b> befreundet.","We've been friends with them since our schooldays."],["Sie ist eng <b>mit meiner Schwester</b> befreundet.","She's close friends with my sister."]],
+"begeistert":[["Die Kinder waren <b>von dem Ausflug</b> begeistert.","The children were thrilled by the trip."],["Er ist nicht besonders <b>von dem Vorschlag</b> begeistert.","He isn't exactly keen on the proposal."]],
+"bekannt:als":[["Er ist <b>als strenger Lehrer</b> bekannt.","He is known as a strict teacher."],["Die Stadt ist <b>als Zentrum der Musik</b> bekannt.","The city is known as a centre of music."]],
+"bekannt:bei":[["Das Lied ist <b>bei jungen Leuten</b> bekannt.","The song is well known among young people."],["Der kleine Laden ist <b>bei den Nachbarn</b> bekannt.","The little shop is known to the neighbours."]],
+"bekannt:für":[["Die Region ist <b>für ihren Wein</b> bekannt.","The region is famous for its wine."],["Er ist <b>für seine Pünktlichkeit</b> bekannt.","He's known for his punctuality."]],
+"beliebt":[["Der Kurs ist <b>bei den Studierenden</b> sehr beliebt.","The course is very popular with the students."],["Dieses Spiel ist <b>bei Kindern</b> beliebt.","This game is popular with children."]],
+"bereit":[["Sind Sie <b>zu einem Kompromiss</b> bereit?","Are you prepared to compromise?"],["Er war <b>zu keiner Antwort</b> bereit.","He wasn't willing to give any answer."]],
+"beschäftigt":[["Sie ist gerade <b>mit der Abrechnung</b> beschäftigt.","She's busy with the accounts right now."],["Wir waren den ganzen Tag <b>mit dem Umzug</b> beschäftigt.","We were busy with the move all day."]],
+"besorgt":[["Die Ärzte sind <b>um den Patienten</b> besorgt.","The doctors are worried about the patient."],["Sie ist sehr <b>um ihre Eltern</b> besorgt.","She's very worried about her parents."]],
+"beteiligt":[["Die Firma ist <b>an dem Projekt</b> beteiligt.","The company is involved in the project."],["Wer war <b>an dem Unfall</b> beteiligt?","Who was involved in the accident?"]],
+"beunruhigt":[["Viele sind <b>über die Entwicklung</b> beunruhigt.","Many people are alarmed about the way things are going."],["Wir sind <b>über sein langes Schweigen</b> beunruhigt.","We're uneasy about his long silence."]],
+"bewandert:auf":[["Er ist <b>auf diesem Gebiet</b> gut bewandert.","He is well versed in this field."],["Sie ist <b>auf dem Gebiet der Statistik</b> bewandert.","She knows her way around statistics."]],
+"bewandert:in":[["Sie ist <b>in alten Sprachen</b> sehr bewandert.","She is very well versed in ancient languages."],["<b>In diesem Fach</b> ist er kaum bewandert.","He barely knows this subject."]],
+"blass":[["Sie war ganz blass <b>vor Schreck</b>.","She went quite pale with fright."],["Er wurde blass <b>vor Wut</b>.","He turned pale with rage."]],
+"charakteristisch":[["Dieser Klang ist <b>für die Region</b> charakteristisch.","This sound is characteristic of the region."],["Solche Fehler sind <b>für Anfänger</b> charakteristisch.","Mistakes like that are typical of beginners."]],
+"dankbar":[["Wir sind <b>für jeden Hinweis</b> dankbar.","We're grateful for any tip-off."],["Ich bin dir <b>für deine Hilfe</b> sehr dankbar.","I'm very grateful to you for your help."]],
+"eifersüchtig":[["Er ist <b>auf seinen Bruder</b> eifersüchtig.","He's jealous of his brother."],["Bist du etwa <b>auf sie</b> eifersüchtig?","Are you jealous of her, by any chance?"]],
+"einverstanden":[["Bist du <b>mit dem Vorschlag</b> einverstanden?","Do you agree with the proposal?"],["Alle waren <b>mit der neuen Regelung</b> einverstanden.","Everyone agreed to the new arrangement."]],
+"entfernt":[["Der Bahnhof ist zwei Kilometer <b>vom Hotel</b> entfernt.","The station is two kilometres from the hotel."],["Wir sind noch weit <b>von einer Lösung</b> entfernt.","We're still a long way from a solution."]],
+"entscheidend":[["Der erste Eindruck ist <b>für das Gespräch</b> entscheidend.","First impressions are decisive for the interview."],["Diese eine Stimme war <b>für das Ergebnis</b> entscheidend.","That single vote decided the result."]],
+"entsetzt":[["Alle waren <b>über die Nachricht</b> entsetzt.","Everyone was appalled at the news."],["Sie war <b>über seinen Ton</b> entsetzt.","She was horrified at his tone."]],
+"enttäuscht":[["Die Fans waren <b>von dem Spiel</b> enttäuscht.","The fans were disappointed by the game."],["Ich bin <b>von dem Ergebnis</b> etwas enttäuscht.","I'm a little disappointed by the result."]],
+"erfahren":[["Sie ist <b>in der Betreuung von Gruppen</b> erfahren.","She is experienced in looking after groups."],["Er ist <b>in solchen Verhandlungen</b> sehr erfahren.","He's very experienced in negotiations like these."]],
+"erfreut":[["Wir sind <b>über Ihre Zusage</b> sehr erfreut.","We're delighted about your acceptance."],["Sie war <b>über den Besuch</b> sichtlich erfreut.","She was visibly pleased about the visit."]],
+"erstaunt":[["Ich bin <b>über seine Ruhe</b> erstaunt.","I'm astonished at how calm he is."],["Alle waren <b>über das Ergebnis</b> erstaunt.","Everyone was astonished at the result."]],
+"fertig":[["Wann bist du <b>mit dem Bericht</b> fertig?","When will you be finished with the report?"],["Ich bin <b>mit dem Aufräumen</b> fertig.","I've finished tidying up."]],
+"frei":[["Der Text ist frei <b>von Fehlern</b>.","The text is free of errors."],["Wer ist schon <b>von Vorurteilen</b> frei?","Who is entirely free of prejudice?"]],
+"freundlich":[["Das Personal war <b>zu allen Gästen</b> freundlich.","The staff were friendly to all the guests."],["Sei bitte <b>zu deiner Schwester</b> freundlich!","Do be nice to your sister."]],
+"froh":[["Wir sind <b>über jede Hilfe</b> froh.","We're glad of any help."],["Sie war <b>über die Nachricht</b> sehr froh.","She was very glad about the news."]],
+"fähig":[["Wer ist <b>zu so einer Tat</b> fähig?","Who is capable of an act like that?"],["Sie ist <b>zu großer Leistung</b> fähig.","She is capable of great things."]],
+"geeignet":[["Der Film ist nicht <b>für kleine Kinder</b> geeignet.","The film isn't suitable for small children."],["Wer ist <b>für diese Aufgabe</b> geeignet?","Who is suited to this task?"]],
+"geschickt":[["Sie ist <b>in solchen Gesprächen</b> sehr geschickt.","She is very skilful in conversations like these."],["Er ist <b>in handwerklichen Dingen</b> geschickt.","He's good with his hands."]],
+"gespannt":[["Wir sind <b>auf das Ergebnis</b> gespannt.","We're eager to see the result."],["Ich bin <b>auf ihre Antwort</b> gespannt.","I'm curious to hear her answer."]],
+"gewöhnt":[["Ich bin <b>an das frühe Aufstehen</b> gewöhnt.","I'm used to getting up early."],["Sie ist <b>an harte Arbeit</b> gewöhnt.","She's used to hard work."]],
+"glücklich":[["Sie ist <b>über den Umzug</b> sehr glücklich.","She's very happy about the move."],["Wir sind <b>über jede Nachricht</b> von dir glücklich.","We're happy about every bit of news from you."]],
+"gut:zu":[["Sie war immer <b>zu ihren Nachbarn</b> gut.","She was always good to her neighbours."],["Sei auch mal gut <b>zu dir selbst</b>!","Be kind to yourself for once."]],
+"gut:in":[["Er ist <b>in Mathematik</b> sehr gut.","He's very good at maths."],["<b>In Sprachen</b> war sie schon immer gut.","She has always been good at languages."]],
+"gut:für":[["Ein Spaziergang ist <b>für den Kopf</b> gut.","A walk is good for the mind."],["So ein Streit ist <b>für niemanden</b> gut.","An argument like that is good for nobody."]],
+"immun":[["Er ist <b>gegen diese Krankheit</b> immun.","He's immune to this illness."],["Sie ist <b>gegen jede Schmeichelei</b> immun.","She's immune to flattery."]],
+"misstrauisch":[["Viele sind <b>neuen Techniken gegenüber</b> misstrauisch.","Many people are mistrustful of new technology."],["Er ist <b>gegenüber Fremden</b> misstrauisch.","He's suspicious of strangers."]],
+"müde":[["Ich bin <b>von der langen Fahrt</b> müde.","I'm tired from the long drive."],["Sie war <b>vom vielen Reden</b> müde.","She was tired from all the talking."]],
+"nachlässig":[["Er ist <b>in der Buchführung</b> nachlässig.","He's careless with the bookkeeping."],["Sie war <b>in ihren Antworten</b> etwas nachlässig.","She was a bit careless in her answers."]],
+"nett":[["Du solltest netter <b>zu ihm</b> sein.","You should be nicer to him."],["Alle waren <b>zu den neuen Gästen</b> nett.","Everyone was nice to the new guests."]],
+"neugierig":[["Ich bin <b>auf das neue Buch</b> neugierig.","I'm curious about the new book."],["<b>Auf die Reaktion</b> bin ich wirklich neugierig.","I'm really curious about the reaction."]],
+"nützlich":[["Dieses Werkzeug ist <b>für kleine Reparaturen</b> nützlich.","This tool is useful for small repairs."],["Der Hinweis war <b>für uns alle</b> nützlich.","The tip was useful for all of us."]],
+"reich":[["Das Land ist <b>an Bodenschätzen</b> reich.","The country is rich in mineral resources."],["Nüsse sind reich <b>an gesunden Fetten</b>.","Nuts are rich in healthy fats."]],
+"schuld":[["Wer ist <b>an dem Fehler</b> schuld?","Who is to blame for the mistake?"],["<b>An dem Streit</b> war niemand allein schuld.","Nobody alone was to blame for the argument."]],
+"schädlich":[["Abgase sind <b>für die Umwelt</b> schädlich.","Exhaust fumes are harmful to the environment."],["Zu wenig Schlaf ist <b>für die Konzentration</b> schädlich.","Too little sleep is bad for your concentration."]],
+"stumm":[["Sie war stumm <b>vor Staunen</b>.","She was speechless with amazement."],["Er blieb stumm <b>vor Schreck</b>.","He stayed silent, frozen with shock."]],
+"traurig":[["<b>Über deinen Abschied</b> sind wir alle traurig.","We're all sad about your leaving."],["Sie ist <b>über den Verlust</b> sehr traurig.","She's very sad about the loss."]],
+"unterteilt":[["Das Buch ist <b>in vier Kapitel</b> unterteilt.","The book is divided into four chapters."],["Der Garten ist <b>in mehrere Beete</b> unterteilt.","The garden is divided into several beds."]],
+"verliebt":[["Sie ist <b>in ihren Nachbarn</b> verliebt.","She's in love with her neighbour."],["Bist du <b>in ihn</b> verliebt?","Are you in love with him?"]],
+"verrückt":[["Sie ist ganz verrückt <b>nach alten Filmen</b>.","She's crazy about old films."],["Die Kinder sind verrückt <b>nach diesem Lied</b>.","The children are mad about this song."]],
+"verwandt":[["Sind Sie <b>mit ihm</b> verwandt?","Are you related to him?"],["Das Wort ist <b>mit dem Englischen</b> verwandt.","The word is related to English."]],
+"verwundert":[["<b>Über diese Frage</b> war sie sichtlich verwundert.","She was visibly puzzled by this question."],["Wir sind <b>über sein Verhalten</b> verwundert.","We're puzzled by his behaviour."]],
+"verärgert":[["Die Gäste waren <b>über die Verspätung</b> verärgert.","The guests were annoyed about the delay."],["Er ist <b>über den Ton des Briefes</b> verärgert.","He's annoyed about the tone of the letter."]],
+"wichtig":[["Schlaf ist <b>für die Gesundheit</b> wichtig.","Sleep is important for your health."],["Diese Frage ist <b>für uns alle</b> wichtig.","This question matters for all of us."]],
+"wütend:auf":[["Sie ist <b>auf ihren Chef</b> wütend.","She's furious with her boss."],["Bist du noch <b>auf mich</b> wütend?","Are you still angry with me?"]],
+"wütend:über":[["Alle sind <b>über die Entscheidung</b> wütend.","Everyone is furious about the decision."],["Er war <b>über die kurzfristige Absage</b> wütend.","He was furious about the last-minute cancellation."]],
+"zurückhaltend":[["Sie ist <b>neuen Kollegen gegenüber</b> zurückhaltend.","She is reserved towards new colleagues."],["Er blieb <b>gegenüber dem Angebot</b> zurückhaltend.","He remained non-committal about the offer."]],
+"zuständig":[["Wer ist <b>für diese Abteilung</b> zuständig?","Who is in charge of this department?"],["Unser Team ist <b>für die Technik</b> zuständig.","Our team is responsible for the technology."]],
 };
 
 // Second line under the case rule — only where English or a near-twin German
@@ -1549,9 +1705,43 @@ const PREP_TRAPS = {
 "sich erkundigen:nach":"<b>nach</b> + dat. = what you are asking about, <b>bei</b> + dat. = whom you ask.",
 "verbergen":"verbergen and verheimlichen both take <b>vor</b> + dat. for the person kept in the dark — not von.",
 "verheimlichen":"verheimlichen, like verbergen, takes <b>vor</b> + dat. for the person kept in the dark — not von.",
+"reich":"reich <b>an</b> + dat. and arm <b>an</b> + dat. are a matched pair — same preposition, same case, opposite meaning.",
+"arm":"arm <b>an</b> + dat. and reich <b>an</b> + dat. are a matched pair — same preposition, same case, opposite meaning.",
+"gut:in":"Three readings: gut <b>in</b> + dat. = good AT a subject, gut <b>zu</b> + dat. = kind TO a person, gut <b>für</b> + acc. = good FOR something.",
+"gut:zu":"gut <b>zu</b> + dat. = kind to a person (like nett zu, freundlich zu); gut <b>in</b> + dat. = good at a subject.",
+"gut:für":"gut <b>für</b> + acc. = beneficial for; gut <b>in</b> + dat. = good at a subject; gut <b>zu</b> + dat. = kind to a person.",
+"bekannt:als":"bekannt <b>als</b> + nom. = known AS something; bekannt <b>für</b> + acc. = famous FOR something; bekannt <b>bei</b> + dat. = known AMONG a group.",
+"bekannt:für":"bekannt <b>für</b> + acc. = famous for a quality; bekannt <b>als</b> + nom. = known as a thing; bekannt <b>bei</b> + dat. = known among people.",
+"bekannt:bei":"bekannt <b>bei</b> + dat. = known among a group; bekannt <b>für</b> + acc. = famous for something; bekannt <b>als</b> + nom. = known as something.",
+"wütend:auf":"wütend <b>auf</b> + acc. = angry AT a person; wütend <b>über</b> + acc. = angry ABOUT a thing. Same split as böse auf and sich ärgern über.",
+"wütend:über":"wütend <b>über</b> + acc. = angry about a thing; wütend <b>auf</b> + acc. = angry at a person. Both accusative, so only the preposition carries the difference.",
+"aufgeschlossen":"<b>gegenüber</b> is the one preposition here that often FOLLOWS its noun: neuen Ideen gegenüber aufgeschlossen. Putting it in front is just as correct.",
+"misstrauisch":"<b>gegenüber</b> + dat., and it may stand before or after the noun: gegenüber Fremden / Fremden gegenüber.",
+"zurückhaltend":"<b>gegenüber</b> + dat. — the third of the gegenüber adjectives, with aufgeschlossen and misstrauisch.",
+"blass":"<b>vor</b> + dat. names the CAUSE of a physical reaction, and takes no article: blass vor Schreck, stumm vor Staunen, zittern vor Kälte.",
+"stumm":"<b>vor</b> + dat. for the cause, without an article: stumm vor Staunen, blass vor Wut. Never \"vor dem Staunen\".",
+"verliebt":"<b>in</b> + accusative, exactly like sich verlieben in — even though nothing moves anywhere.",
+"gewöhnt":"<b>an</b> + accusative, like sich gewöhnen an. The state is settled but the case stays accusative.",
+"zuständig":"zuständig <b>für</b> + acc. = whose job it is; verantwortlich <b>für</b> + acc. = who carries the blame. Same preposition, different weight.",
+"verantwortlich":"verantwortlich <b>für</b> + acc. = carrying responsibility; zuständig <b>für</b> + acc. = simply whose desk it lands on.",
+"müde":"müde <b>von</b> + dat. = tired FROM an exertion. The genitive form (des Wartens müde) is literary, not everyday German.",
+"fähig":"fähig <b>zu</b> + dat. = capable of; imstande <b>zu</b> + dat. does the same job. Not \"fähig für\".",
+"schuld":"schuld <b>an</b> + dat. = to blame for. Note the dative, unlike the accusative of sich erinnern an or denken an.",
+"beteiligt":"beteiligt <b>an</b> + dat. = taking part in, like teilnehmen an + dat. The an-adjectives here (beteiligt, schuld, reich, interessiert) all take the dative.",
+"besorgt":"besorgt <b>um</b> + acc. = anxious for someone's safety; beunruhigt <b>über</b> + acc. = uneasy about a development.",
+"beunruhigt":"beunruhigt <b>über</b> + acc. = uneasy about a development; besorgt <b>um</b> + acc. = anxious for a person.",
+"anerkannt":"anerkannt <b>als</b> + nom. — als equates the person with the role, so the case copies the subject, not the object.",
+"bewandert:in":"bewandert <b>in</b> + dat. or <b>auf</b> + dat. — both dative here, unlike almost every other auf-adjective.",
+"bewandert:auf":"bewandert <b>auf</b> + dat. (auf dem Gebiet …) — one of the rare auf + dative cases, alongside basieren auf.",
+"geeignet":"geeignet <b>für</b> + acc. = suitable for; sich eignen <b>zu</b> + dat. = cut out to be. The adjective and the verb take different prepositions.",
+"erfahren":"erfahren <b>in</b> + dat. = experienced in. Careful: erfahren is also a verb meaning to find out, which takes no preposition at all.",
+"frei":"frei <b>von</b> + dat. = free of something unwanted; sich befreien <b>von</b> + dat. is the matching verb.",
+"entfernt":"entfernt <b>von</b> + dat. works for both physical distance and figurative distance: weit von einer Lösung entfernt.",
+"immun":"immun <b>gegen</b> + acc. — gegen is always accusative, so this one is predictable.",
+"einverstanden":"einverstanden <b>mit</b> + dat. = in agreement with; sich einigen <b>auf</b> + acc. is the verb for reaching that agreement.",
 };
 
-const ALWAYS_DATIVE_PREPS = ["aus","bei","mit","nach","seit","von","zu"];
+const ALWAYS_DATIVE_PREPS = ["aus","bei","mit","nach","seit","von","zu","gegenüber"];
 const ALWAYS_ACC_PREPS = ["durch","für","gegen","ohne","um"];
 
 // The case rule, stated the way it actually works — not as a wohin?/wo? story,
@@ -1560,6 +1750,7 @@ function prepCaseRule(item){
   const p = item.prep;
   const caseName = item.case === "Accusative" ? "accusative" : "dative";
   const w = item.word.replace(/\s*\([^)]*\)\s*$/, "").trim();
+  const gov = item.type === "adj" ? "adjective" : "verb";
   let line = `<b>${w}</b> governs <b>${p} + ${item.case}</b> — learn the three as one unit.`;
   if(p === "als"){
     return `<b>${w}</b> takes <b>als + ${item.case}</b>. als is not a case-governing preposition at all: it
@@ -1569,11 +1760,11 @@ function prepCaseRule(item){
         : "here that is the accusative object, hence accusative (Ich sehe ihn als meinen Freund an)."}`;
   }
   if(ALWAYS_DATIVE_PREPS.indexOf(p) !== -1){
-    line += ` Easy half: <b>${p}</b> is one of the always-dative prepositions (aus, bei, mit, nach, seit, von, zu), so the case never varies, whatever the verb.`;
+    line += ` Easy half: <b>${p}</b> is one of the always-dative prepositions (aus, bei, mit, nach, seit, von, zu, gegenüber), so the case never varies, whatever the ${gov}.`;
   }else if(ALWAYS_ACC_PREPS.indexOf(p) !== -1){
     line += ` Easy half: <b>${p}</b> is always accusative (durch, für, gegen, ohne, um) — nothing to weigh up.`;
   }else{
-    line += ` <b>${p}</b> is a two-way preposition, but here the case is fixed by the verb, not by wohin?/wo? — nothing is moving, so the ${caseName} has to be memorised with the verb.`;
+    line += ` <b>${p}</b> is a two-way preposition, but here the case is fixed by the ${gov}, not by wohin?/wo? — nothing is moving, so the ${caseName} has to be memorised with the ${gov}.`;
   }
   return line;
 }
@@ -1711,7 +1902,8 @@ function renderBoxMeter(){
     }
     return;
   }
-  const pool = appState.mode === "verbs" ? irregularVerbsDB : prepositionsDB;
+  const pool = appState.mode === "verbs" ? irregularVerbsDB
+             : appState.mode === "adj" ? adjectivesDB : prepositionsDB;
   const counts = [0,0,0,0,0];
   pool.forEach(it => { counts[getBoxInfo(progress, it.id).box - 1]++; });
   const max = Math.max(1, ...counts);
@@ -1920,6 +2112,7 @@ function searchBlob(item){
 }
 const LIST_DECKS = {
   preps: prepositionsDB.slice().sort((a,b) => sortKey(a).localeCompare(sortKey(b), "de")),
+  adj:   adjectivesDB.slice().sort((a,b) => sortKey(a).localeCompare(sortKey(b), "de")),
   verbs: irregularVerbsDB.slice().sort((a,b) => sortKey(a).localeCompare(sortKey(b), "de"))
 };
 const LIST_BLOBS = {};
@@ -1927,23 +2120,24 @@ ALL_ITEMS.forEach(it => { LIST_BLOBS[it.id] = searchBlob(it); });
 
 const PREP_ORDER = ["an","auf","über","mit","von","zu","für","um","in","vor","bei","nach","gegen",
                     "aus","als","unter","durch"];
-const LIST_PREPS = PREP_ORDER.filter(p => prepositionsDB.some(it => it.prep === p))
-  .concat([...new Set(prepositionsDB.map(it => it.prep))].filter(p => !PREP_ORDER.includes(p)).sort());
+const prepsOf = db => PREP_ORDER.filter(p => db.some(it => it.prep === p))
+  .concat([...new Set(db.map(it => it.prep))].filter(p => !PREP_ORDER.includes(p)).sort());
+const LIST_PREPS = { preps: prepsOf(prepositionsDB), adj: prepsOf(adjectivesDB) };
 
 function listChipsFor(deck){
   const base = [{ key:"all", label:"All" }];
-  if(deck === "preps"){
+  if(deck === "preps" || deck === "adj"){
+    const db = deck === "adj" ? adjectivesDB : prepositionsDB;
     base.push(
       { key:"akk",  label:"Accusative" },
       { key:"dat",  label:"Dative" }
     );
-    if(prepositionsDB.some(it => it.case === "Nominative")) base.push({ key:"nom", label:"Nominative" });
+    if(db.some(it => it.case === "Nominative")) base.push({ key:"nom", label:"Nominative" });
     base.push(
-      { key:"adj",  label:"Adjectives" },
       { key:"weak", label:"Needs practice" },
       { key:"done", label:"Mastered" }
     );
-    LIST_PREPS.forEach(p => base.push({ key:"prep:" + p, label:p, mono:true }));
+    LIST_PREPS[deck].forEach(p => base.push({ key:"prep:" + p, label:p, mono:true }));
   }else{
     base.push(
       { key:"sein", label:"Perfekt with sein" },
@@ -1960,11 +2154,10 @@ function matchesFilter(item, filter){
   if(filter === "all") return true;
   if(filter === "weak") return getBoxInfo(progress, item.id).box < WEAK_CEILING;
   if(filter === "done") return getBoxInfo(progress, item.id).box === MASTER_BOX;
-  if(item.type === "prep"){
+  if(item.type !== "verb"){
     if(filter === "akk") return item.case === "Accusative";
     if(filter === "dat") return item.case === "Dative";
     if(filter === "nom") return item.case === "Nominative";
-    if(filter === "adj") return item.type2 === "Adjektiv";
     if(filter.indexOf("prep:") === 0) return item.prep === filter.slice(5);
     return true;
   }
@@ -2004,11 +2197,10 @@ function boxPill(item){
 
 function entryRowHtml(item, q){
   const head = headwordOf(item);
-  if(item.type === "prep"){
+  if(item.type !== "verb"){
     const caseCls = CASE_CLS[item.case] || "prep-dat";
     const caseAbbr = CASE_ABBR[item.case] || "Dat.";
-    const kind = item.type2 === "Adjektiv"
-      ? `<span class="entry-kind">Adjektiv</span>` : "";
+    const kind = "";
     return `
       <div class="entry" data-id="${escapeHtml(item.id)}">
         <button class="entry-head" type="button" data-toggle="1">
@@ -2038,6 +2230,10 @@ function currentListItems(){
   const q = st.q.trim();
   return LIST_DECKS[st.deck].filter(it => matchesFilter(it, st.filter) && matchesQuery(it, q));
 }
+
+const searchPlaceholder = deck =>
+  deck === "adj" ? "Search adjective, preposition or meaning…"
+                 : "Search verb, preposition or meaning…";
 
 function renderListChips(){
   const st = appState.list;
@@ -2089,7 +2285,7 @@ function renderEntryDetail(item, box){
 }
 
 function drillItem(item){
-  appState.mode = item.type === "verb" ? "verbs" : "preps";
+  appState.mode = item.type === "verb" ? "verbs" : item.type === "adj" ? "adj" : "preps";
   appState.session = { score: 0, total: 0 };
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === appState.mode));
   loadNextQuestion(item);
@@ -2106,6 +2302,7 @@ function renderListView(){
       <div class="list-toolbar">
         <div class="seg-row" id="list-decks">
           <button class="seg${st.deck === "preps" ? " active" : ""}" type="button" data-deck="preps">Präpositionen</button>
+          <button class="seg${st.deck === "adj" ? " active" : ""}" type="button" data-deck="adj">Adjektive</button>
           <button class="seg${st.deck === "verbs" ? " active" : ""}" type="button" data-deck="verbs">Verben</button>
         </div>
         <div class="search-field">
@@ -2113,10 +2310,13 @@ function renderListView(){
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
           </span>
           <input id="list-search" type="text" autocomplete="off" spellcheck="false"
-                 placeholder="Search verb, preposition or meaning…" value="${escapeHtml(st.q)}">
+                 placeholder="${searchPlaceholder(st.deck)}" value="${escapeHtml(st.q)}">
           <button class="search-clear" id="list-clear" type="button" title="Clear">&times;</button>
         </div>
-        <div class="chip-row" id="list-chips"></div>
+        <div class="chip-wrap">
+          <div class="chip-row" id="list-chips"></div>
+          <button class="chip-more" id="chip-more" type="button">All filters</button>
+        </div>
       </div>
       <div class="list-meta">
         <span class="list-count" id="list-count"></span>
@@ -2148,8 +2348,14 @@ function renderListView(){
     appState.list.open = null;
     document.querySelectorAll("#list-decks .seg").forEach(b =>
       b.classList.toggle("active", b.dataset.deck === appState.list.deck));
+    el("list-search").placeholder = searchPlaceholder(appState.list.deck);
     renderListChips();
     renderListResults();
+  });
+  el("chip-more").addEventListener("click", () => {
+    const row = el("list-chips");
+    const open = row.classList.toggle("expanded");
+    el("chip-more").textContent = open ? "Fewer" : "All filters";
   });
   el("list-chips").addEventListener("click", ev => {
     const btn = ev.target.closest("[data-filter]");
@@ -2201,6 +2407,7 @@ window.addEventListener("keydown", e => {
 
 document.getElementById("tab-verbs").addEventListener("click", () => switchMode("verbs"));
 document.getElementById("tab-preps").addEventListener("click", () => switchMode("preps"));
+document.getElementById("tab-adj").addEventListener("click", () => switchMode("adj"));
 document.getElementById("tab-weak").addEventListener("click", () => switchMode("weak"));
 document.getElementById("tab-list").addEventListener("click", () => switchMode("list"));
 
